@@ -1,25 +1,17 @@
-import React, { useEffect } from "react";
-
-import { getItems } from "./services";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import PageNotFound from "./pages/PageNotFound";
+// import ProductList from "./pages/Products/ProductList";
+import { PAGE_ROUTE_URLS } from "./utils/constant";
 
 const App: React.FC = () => {
-  const [items, setItems] = React.useState<string>("");
-  useEffect(() => {
-    (async () => {
-      try {
-        setItems(await getItems());
-      } catch (err) {
-        console.error("Error fetching items:", err);
-      }
-    })();
-  }, []);
-
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold text-blue-600">
-        {items || "React + TypeScript + Tailwind CSS is Ready!"}
-      </h1>
-    </div>
+    <Routes>
+      <Route path={PAGE_ROUTE_URLS.HOME} element={<Home />} />
+      {/* <Route path={PAGE_ROUTE_URLS.PRODUCT_LIST} element={<ProductList />} /> */}
+      <Route path={PAGE_ROUTE_URLS.UNKNOWN} element={<PageNotFound />} />
+    </Routes>
   );
 };
 

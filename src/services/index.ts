@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toastError } from "../utils/helper";
+import { toastError, toastSuccess } from "../utils/helper";
 
 const customAxios = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
@@ -9,31 +9,35 @@ const customAxios = axios.create({
 });
 
 customAxios.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    if (
+      response &&
+      response.config &&
+      response.config.method &&
+      ["post", "patch", "delete"].includes(response.config.method)
+    ) {
+      toastSuccess(response.data.message);
+    }
+    return response.data;
+  },
   (error) => {
     // Global error handling
-    if (error.response) {
-      // Server responded with a status outside 2xx
-      console.error(
-        "Server Error:",
-        error.response.status,
-        error.response.data
-      );
-      toastError(
-        `Server Error: ${error.response.status} - ${
-          error.response.data?.message || "Something went wrong"
-        }`
-      );
-    } else if (error.request) {
-      // Request was made but no response
-      console.error("Network Error:", error.request);
-      toastError("Network error. Please check your connection.");
-    } else {
-      // Something else happened
-      console.error("Unexpected Error:", error.message);
-      toastError(`Unexpected error: ${error.message}`);
+    if (error.response && error.response.data) {
+      if (["post", "patch"].includes(error.response.config.method)) {
+        return Promise.reject(error.response.data);
+      }
+      if (error.response.config.method === "delete") {
+        toastError(error.response.data.message);
+        return Promise.reject(error);
+      }
+    } else if (error.response) {
+      if (error.response.config.method === "get") {
+        toastError(error.message);
+        return Promise.reject(error);
+      }
     }
-    return Promise.reject(error); // Keep promise rejection so caller can also handle it if needed
+    toastError("Something went wrong");
+    return Promise.reject(error);
   }
 );
 

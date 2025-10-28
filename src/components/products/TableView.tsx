@@ -1,6 +1,6 @@
 import React from "react";
 import type { IProduct } from "../../types";
-import { localeDateString, priceFormat } from "../../utils/helper";
+import { priceFormat } from "../../utils/helper";
 import Table from "../common/Table";
 import IconButton from "../common/IconButton";
 import { Pencil, Trash } from "lucide-react";
@@ -28,7 +28,6 @@ const TableView: React.FC<TableViewProps> = ({
     {
       key: "created_at",
       label: "Created At",
-      render: (product: IProduct) => localeDateString(product.created_at),
     },
     {
       key: "action",

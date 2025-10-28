@@ -90,6 +90,7 @@ const AddEditProductDialog: React.FC<Props> = ({
           value={form.name}
           onChange={handleChange}
           error={formErrors.name}
+          required
         />
 
         <FormInput
@@ -99,6 +100,7 @@ const AddEditProductDialog: React.FC<Props> = ({
           onChange={handleChange}
           error={formErrors.unit_price}
           type="number"
+          required
         />
 
         <FormInput
@@ -108,6 +110,7 @@ const AddEditProductDialog: React.FC<Props> = ({
           onChange={handleChange}
           error={formErrors.quantity}
           type="number"
+          required
         />
 
         <FormInput
@@ -117,6 +120,7 @@ const AddEditProductDialog: React.FC<Props> = ({
           onChange={handleChange}
           error={formErrors.description}
           textarea
+          required
         />
 
         <div className="flex justify-end gap-2 pt-3">

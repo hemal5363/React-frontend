@@ -18,4 +18,5 @@ export const LISTING_VIEW = {
 
 export const SERVICE_URLS = {
   PRODUCTS: "/products",
+  USERS: "/users",
 };

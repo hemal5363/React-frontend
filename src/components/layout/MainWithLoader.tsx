@@ -3,7 +3,7 @@ import FullScreenLoader from "../common/FullScreenLoader";
 
 interface MainWithLoaderProps {
   children: React.ReactNode;
-  isLoading: boolean;
+  isLoading?: boolean;
   className?: string;
 }
 

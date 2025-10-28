@@ -1,6 +1,6 @@
 import React from "react";
 import type { IProduct } from "../../types";
-import { localeDateString, priceFormat } from "../../utils/helper";
+import { priceFormat } from "../../utils/helper";
 import IconButton from "../common/IconButton";
 import { Trash, Pencil } from "lucide-react";
 
@@ -37,7 +37,7 @@ const CardView: React.FC<CardViewProps> = ({
                 Quantity: {product.quantity}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Created: {localeDateString(product.created_at)}
+                Created: {product.created_at}
               </p>
             </div>
             <div className="flex gap-2 flex-row items-start">

@@ -8,8 +8,9 @@ type Variant =
   | "danger"
   | "success"
   | "ghost"
-  | "outline";
-type Size = "sm" | "md" | "lg";
+  | "outline"
+  | "link";
+type Size = "sm" | "md" | "lg" | "none";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -21,10 +22,18 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: React.ReactNode;
 }
 
-const LinkButton: React.FC<Props> = ({ children, to, ...props }) => {
+const LinkButton: React.FC<Props> = ({
+  children,
+  to,
+  variant = "link",
+  size = "none",
+  ...props
+}) => {
   return (
     <Link to={to}>
-      <Button {...props}>{children}</Button>
+      <Button {...props} variant={variant} size={size}>
+        {children}
+      </Button>
     </Link>
   );
 };

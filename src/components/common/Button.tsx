@@ -7,8 +7,9 @@ type Variant =
   | "danger"
   | "success"
   | "ghost"
-  | "outline";
-type Size = "sm" | "md" | "lg";
+  | "outline"
+  | "link";
+type Size = "sm" | "md" | "lg" | "none";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -32,12 +33,14 @@ const VARIANT_CLASSES: Record<Variant, string> = {
     "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700",
   outline:
     "border border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700",
+  link: "text-gray-700 hover:underline dark:text-gray-200",
 };
 
 const SIZE_CLASSES: Record<Size, string> = {
   sm: "px-4 py-1.5 text-sm",
   md: "px-6 py-2 text-base",
   lg: "px-8 py-3 text-lg",
+  none: "p-0",
 };
 
 const Button: React.FC<ButtonProps> = ({

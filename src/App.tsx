@@ -6,6 +6,8 @@ import ProductList from "./pages/products/ProductList";
 import { PAGE_ROUTE_URLS } from "./utils/constant";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +16,14 @@ const App: React.FC = () => {
       <Route path={PAGE_ROUTE_URLS.PRODUCT_LIST} element={<ProductList />} />
       <Route path={PAGE_ROUTE_URLS.REGISTER} element={<Register />} />
       <Route path={PAGE_ROUTE_URLS.LOGIN} element={<Login />} />
+      <Route
+        path={PAGE_ROUTE_URLS.FORGOT_PASSWORD}
+        element={<ForgotPassword />}
+      />
+      <Route
+        path={PAGE_ROUTE_URLS.RESET_PASSWORD}
+        element={<ResetPassword />}
+      />
       <Route path={PAGE_ROUTE_URLS.UNKNOWN} element={<PageNotFound />} />
     </Routes>
   );

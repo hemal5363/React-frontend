@@ -3,6 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import { Moon, Sun, X, Menu } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import { PAGE_ROUTE_URLS, HEADER_LINKS } from "../../utils/constant";
+import { isUserLogin, logOut } from "../../utils/helper";
+import Button from "../common/Button";
 
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -48,18 +50,26 @@ const Header: React.FC = () => {
           >
             {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
           </button>
-          <Link
-            to={PAGE_ROUTE_URLS.LOGIN}
-            className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-          >
-            Login
-          </Link>
-          <Link
-            to={PAGE_ROUTE_URLS.REGISTER}
-            className="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white dark:text-white text-sm font-semibold rounded-md transition-colors"
-          >
-            Sign Up
-          </Link>
+          {isUserLogin() ? (
+            <>
+              <Button onClick={logOut}>Logout</Button>
+            </>
+          ) : (
+            <>
+              <Link
+                to={PAGE_ROUTE_URLS.LOGIN}
+                className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                Login
+              </Link>
+              <Link
+                to={PAGE_ROUTE_URLS.REGISTER}
+                className="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white dark:text-white text-sm font-semibold rounded-md transition-colors"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}

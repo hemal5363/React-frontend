@@ -1,5 +1,6 @@
 export interface IError {
   errors: Record<string, string>;
+  message: string;
 }
 
 export interface IProduct {
@@ -30,4 +31,9 @@ export interface IRegisterForm {
 export interface ILoginForm {
   email: string;
   password: string;
+}
+
+export interface IResetForm {
+  password: string;
+  confirmPassword: string;
 }

@@ -6,7 +6,7 @@ import FormInput from "../../components/common/FormInput";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import LinkButton from "../../components/common/LinkButton";
 import { loginUser } from "../../services/authService";
-import { redirectTo } from "../../utils/helper";
+import { navigateTo, toastError } from "../../utils/helper";
 
 const initialForm: ILoginForm = {
   email: "",
@@ -31,10 +31,14 @@ const Login: React.FC = () => {
     setLoading(true);
     try {
       await loginUser(form);
-      redirectTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
+      navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
     } catch (error) {
       const errorObj = error as IError;
-      setFormErrors(errorObj.errors);
+      if (Object.keys(errorObj.errors).length > 0) {
+        setFormErrors(errorObj.errors);
+      } else {
+        toastError(errorObj.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -67,6 +71,11 @@ const Login: React.FC = () => {
               error={formErrors.password}
               required
             />
+            <div className="flex justify-end text-sm">
+              <LinkButton to={PAGE_ROUTE_URLS.FORGOT_PASSWORD}>
+                Forgot Password?
+              </LinkButton>
+            </div>
 
             <Button
               type="submit"

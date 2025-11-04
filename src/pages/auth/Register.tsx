@@ -6,7 +6,7 @@ import FormInput from "../../components/common/FormInput";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import LinkButton from "../../components/common/LinkButton";
 import { registerUser } from "../../services/authService";
-import { redirectTo } from "../../utils/helper";
+import { navigateTo } from "../../utils/helper";
 
 const initialForm: IRegisterForm = {
   name: "",
@@ -43,7 +43,7 @@ const Register: React.FC = () => {
     try {
       await registerUser(form);
       setForm(initialForm);
-      redirectTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
+      navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
     } catch (error) {
       const errorObj = error as IError;
       setFormErrors(errorObj.errors);

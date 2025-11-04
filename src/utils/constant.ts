@@ -2,6 +2,8 @@ export const PAGE_ROUTE_URLS = {
   HOME: "/",
   LOGIN: "/login",
   REGISTER: "/register",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password/:token",
   PRODUCT_LIST: "/product-list",
   UNKNOWN: "*",
 };
@@ -17,6 +19,7 @@ export const LISTING_VIEW = {
 };
 
 export const SERVICE_URLS = {
+  AUTH: "/auth",
   PRODUCTS: "/products",
   USERS: "/users",
 };

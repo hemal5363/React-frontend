@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { PAGE_ROUTE_URLS } from "./constant";
 
 export const getNewDate = (date?: Date | undefined | string) => {
   return new Date(date || Date.now());
@@ -16,6 +17,21 @@ export const toastSuccess = (message: string) => {
   toast.success(message);
 };
 
-export const redirectTo = (path: string) => {
-  window.location.href = path;
+export const isUserLogin = () => {
+  return !!sessionStorage.getItem("token");
+};
+
+export const logOut = () => {
+  sessionStorage.removeItem("token");
+  navigateTo(PAGE_ROUTE_URLS.LOGIN);
+};
+
+let navigateFn: (path: string) => void;
+
+export const setNavigate = (fn: (path: string) => void) => {
+  navigateFn = fn;
+};
+
+export const navigateTo = (path: string) => {
+  if (navigateFn) navigateFn(path);
 };

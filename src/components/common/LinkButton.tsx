@@ -31,7 +31,7 @@ const LinkButton: React.FC<Props> = ({
 }) => {
   return (
     <Link to={to}>
-      <Button {...props} variant={variant} size={size}>
+      <Button {...props} variant={variant} size={size} type="button">
         {children}
       </Button>
     </Link>

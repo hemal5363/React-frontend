@@ -10,6 +10,7 @@ import IconButton from "../../components/common/IconButton";
 import Button from "../../components/common/Button";
 import AddEditProductDialog from "../../components/products/AddEditProductDialog";
 import DeleteDialog from "../../components/common/DeleteDialog";
+import Text from "../../components/common/Text";
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -66,9 +67,9 @@ const ProductList: React.FC = () => {
   return (
     <MainWithLoader isLoading={loading}>
       <div className="flex sm:flex-row flex-col justify-between sm:items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <Text variant="h1" size="md" fontWeight="bold">
           Products
-        </h1>
+        </Text>
 
         {/* View Toggle */}
         <div className="flex gap-2 justify-end">

@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import MainWithLoader from "../../components/layout/MainWithLoader";
 import Button from "../../components/common/Button";
 import FormInput from "../../components/common/FormInput";
-import type { IError, IResetForm } from "../../types";
+import type { IResetForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import LinkButton from "../../components/common/LinkButton";
 import { useParams } from "react-router-dom";
 import { resetPassword } from "../../services/authService";
 import { toastError } from "../../utils/helper";
+import Card from "../../components/common/Card";
+import Text from "../../components/common/Text";
 
 const initialForm: IResetForm = {
   password: "",
@@ -20,7 +22,7 @@ const ResetPassword: React.FC = () => {
   const [form, setForm] = useState<IResetForm>(initialForm);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -49,12 +51,8 @@ const ResetPassword: React.FC = () => {
       setSuccess(true);
       setForm(initialForm);
     } catch (error) {
-      const errorObj = error as IError;
-      if (Object.keys(errorObj.errors).length > 0) {
-        setFormErrors(errorObj.errors);
-      } else {
-        toastError(errorObj.message);
-      }
+      const errorObj = error as Record<string, string>;
+      setFormErrors(errorObj);
     } finally {
       setLoading(false);
     }
@@ -63,17 +61,27 @@ const ResetPassword: React.FC = () => {
   return (
     <MainWithLoader>
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
-        <div className="w-full max-w-md bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+        <Card>
+          <Text
+            variant="h1"
+            size="md"
+            fontWeight="bold"
+            textCenter
+            className="mb-6"
+          >
             Reset Password
-          </h1>
+          </Text>
 
           {success ? (
             <div className="text-center">
-              <p className="text-green-600 font-medium mb-4">
+              <Text fontWeight="medium" className="text-green-600 mb-4">
                 Your password has been reset successfully!
-              </p>
-              <LinkButton to={PAGE_ROUTE_URLS.LOGIN} className="text-blue-500">
+              </Text>
+              <LinkButton
+                to={PAGE_ROUTE_URLS.LOGIN}
+                hoverLink
+                className="text-blue-500"
+              >
                 Go to Login
               </LinkButton>
             </div>
@@ -109,7 +117,7 @@ const ResetPassword: React.FC = () => {
               </Button>
             </form>
           )}
-        </div>
+        </Card>
       </div>
     </MainWithLoader>
   );

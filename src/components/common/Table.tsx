@@ -1,9 +1,9 @@
 import React from "react";
 
 interface Column<T> {
-  key: keyof T | string; // property name in the object or custom key
-  label: string;         // header label
-  render?: (item: T) => React.ReactNode; // custom cell renderer
+  key: keyof T | string;
+  label: string;
+  render?: (item: T) => React.ReactNode;
 }
 
 interface TableProps<T> {

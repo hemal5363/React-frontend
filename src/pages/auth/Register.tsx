@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import MainWithLoader from "../../components/layout/MainWithLoader";
 import Button from "../../components/common/Button";
-import type { IError, IRegisterForm } from "../../types";
+import type { IRegisterForm } from "../../types";
 import FormInput from "../../components/common/FormInput";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import LinkButton from "../../components/common/LinkButton";
 import { registerUser } from "../../services/authService";
 import { navigateTo } from "../../utils/helper";
+import Card from "../../components/common/Card";
+import Text from "../../components/common/Text";
 
 const initialForm: IRegisterForm = {
   name: "",
@@ -45,8 +47,8 @@ const Register: React.FC = () => {
       setForm(initialForm);
       navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
     } catch (error) {
-      const errorObj = error as IError;
-      setFormErrors(errorObj.errors);
+      const errorObj = error as Record<string, string>;
+      setFormErrors(errorObj);
     } finally {
       setLoading(false);
     }
@@ -55,10 +57,16 @@ const Register: React.FC = () => {
   return (
     <MainWithLoader>
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
-        <div className="w-full max-w-md bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+        <Card>
+          <Text
+            variant="h1"
+            size="md"
+            fontWeight="bold"
+            textCenter
+            className="mb-6"
+          >
             Registration
-          </h1>
+          </Text>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <FormInput
@@ -107,11 +115,13 @@ const Register: React.FC = () => {
             </Button>
           </form>
 
-          <p className="text-center mt-4 text-sm text-gray-500 dark:text-gray-300">
+          <Text size="sm" textCenter className="mt-4">
             Already have an account?{" "}
-            <LinkButton to={PAGE_ROUTE_URLS.LOGIN}>Login here</LinkButton>
-          </p>
-        </div>
+            <LinkButton to={PAGE_ROUTE_URLS.LOGIN} hoverLink>
+              Login here
+            </LinkButton>
+          </Text>
+        </Card>
       </div>
     </MainWithLoader>
   );

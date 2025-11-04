@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import MainWithLoader from "../../components/layout/MainWithLoader";
 import Button from "../../components/common/Button";
-import type { IError, ILoginForm } from "../../types";
+import type { ILoginForm } from "../../types";
 import FormInput from "../../components/common/FormInput";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import LinkButton from "../../components/common/LinkButton";
 import { loginUser } from "../../services/authService";
-import { navigateTo, toastError } from "../../utils/helper";
+import { navigateTo } from "../../utils/helper";
+import Card from "../../components/common/Card";
+import Text from "../../components/common/Text";
 
 const initialForm: ILoginForm = {
   email: "",
@@ -33,12 +35,8 @@ const Login: React.FC = () => {
       await loginUser(form);
       navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
     } catch (error) {
-      const errorObj = error as IError;
-      if (Object.keys(errorObj.errors).length > 0) {
-        setFormErrors(errorObj.errors);
-      } else {
-        toastError(errorObj.message);
-      }
+      const errorObj = error as Record<string, string>;
+      setFormErrors(errorObj);
     } finally {
       setLoading(false);
     }
@@ -47,10 +45,16 @@ const Login: React.FC = () => {
   return (
     <MainWithLoader>
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
-        <div className="w-full max-w-md bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+        <Card>
+          <Text
+            variant="h1"
+            size="md"
+            fontWeight="bold"
+            textCenter
+            className="mb-6"
+          >
             Login
-          </h1>
+          </Text>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <FormInput
@@ -72,7 +76,7 @@ const Login: React.FC = () => {
               required
             />
             <div className="flex justify-end text-sm">
-              <LinkButton to={PAGE_ROUTE_URLS.FORGOT_PASSWORD}>
+              <LinkButton to={PAGE_ROUTE_URLS.FORGOT_PASSWORD} hoverLink>
                 Forgot Password?
               </LinkButton>
             </div>
@@ -87,11 +91,13 @@ const Login: React.FC = () => {
             </Button>
           </form>
 
-          <p className="text-center mt-4 text-sm text-gray-500 dark:text-gray-300">
+          <Text size="sm" textCenter className="mt-4">
             Don’t have an account?{" "}
-            <LinkButton to={PAGE_ROUTE_URLS.REGISTER}>Register here</LinkButton>
-          </p>
-        </div>
+            <LinkButton to={PAGE_ROUTE_URLS.REGISTER} hoverLink>
+              Register here
+            </LinkButton>
+          </Text>
+        </Card>
       </div>
     </MainWithLoader>
   );

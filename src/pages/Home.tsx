@@ -1,25 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { PAGE_ROUTE_URLS } from "../utils/constant";
+import MainWithLoader from "../components/layout/MainWithLoader";
+import Text from "../components/common/Text";
+import LinkButton from "../components/common/LinkButton";
 
 const Home: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-16 sm:py-22 lg:px-8 transition-colors min-h-full">
+    <MainWithLoader>
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto mb-16">
-        <h1 className="text-5xl font-bold text-gray-900 dark:text-white sm:text-6xl">
+        <Text variant="h1" size="lg" fontWeight="bold">
           Welcome to MyApp
-        </h1>
-        <p className="mt-6 text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
+        </Text>
+        <Text size="lg" fontWeight="medium" className="mt-6">
           Explore our amazing products, services, and features. Enjoy a smooth
           experience with light and dark mode support.
-        </p>
-        <Link
+        </Text>
+        <LinkButton
           to={PAGE_ROUTE_URLS.PRODUCT_LIST}
-          className="mt-8 inline-block px-6 py-3 bg-indigo-500 hover:bg-indigo-400 text-white font-semibold rounded-md transition-colors"
+          variant="primary"
+          size="lg"
+          className="mt-8"
         >
           Browse Products
-        </Link>
+        </LinkButton>
       </section>
 
       {/* Features Section */}
@@ -51,7 +55,7 @@ const Home: React.FC = () => {
           </div>
         ))}
       </section>
-    </div>
+    </MainWithLoader>
   );
 };
 

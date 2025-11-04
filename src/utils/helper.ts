@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { PAGE_ROUTE_URLS } from "./constant";
+import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "./constant";
 
 export const getNewDate = (date?: Date | undefined | string) => {
   return new Date(date || Date.now());
@@ -18,11 +18,11 @@ export const toastSuccess = (message: string) => {
 };
 
 export const isUserLogin = () => {
-  return !!sessionStorage.getItem("token");
+  return !!sessionStorage.getItem(SESSION_STORAGE_KEYS.TOKEN);
 };
 
 export const logOut = () => {
-  sessionStorage.removeItem("token");
+  sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN);
   navigateTo(PAGE_ROUTE_URLS.LOGIN);
 };
 

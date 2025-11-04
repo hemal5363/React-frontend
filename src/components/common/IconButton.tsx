@@ -8,6 +8,7 @@ interface IconButtonProps {
   variant?: Variant;
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  className?: string;
 }
 
 const VARIANT_CLASSES: Record<Variant, string> = {
@@ -35,11 +36,12 @@ const IconButton: React.FC<IconButtonProps> = ({
   variant = "secondary",
   size = "md",
   disabled = false,
+  className,
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`rounded-md transition-colors ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} flex items-center justify-center`}
+      className={`rounded-md transition-colors ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} flex items-center justify-center ${className}`}
       disabled={disabled}
     >
       {children}

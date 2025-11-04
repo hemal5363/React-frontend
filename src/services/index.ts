@@ -1,6 +1,6 @@
 import axios from "axios";
 import { navigateTo, toastError, toastSuccess } from "../utils/helper";
-import { PAGE_ROUTE_URLS } from "../utils/constant";
+import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "../utils/constant";
 
 const customAxios = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
@@ -10,7 +10,7 @@ const customAxios = axios.create({
 });
 
 customAxios.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem(SESSION_STORAGE_KEYS.TOKEN);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -28,7 +28,7 @@ customAxios.interceptors.response.use(
       toastSuccess(response.data.message);
     }
     if (response && response.data && response.data.token) {
-      sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem(SESSION_STORAGE_KEYS.TOKEN, response.data.token);
     }
     return response.data;
   },
@@ -36,7 +36,11 @@ customAxios.interceptors.response.use(
     // Global error handling
     if (error.response && error.response.data) {
       if (["post", "patch"].includes(error.response.config.method)) {
-        return Promise.reject(error.response.data);
+        if (error.response.data.errors.length > 0) {
+          return Promise.reject(error.response.data.errors);
+        }
+        toastError(error.response.data.message);
+        return Promise.reject({});
       }
       if (error.response.config.method === "delete") {
         toastError(error.response.data.message);

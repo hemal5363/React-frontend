@@ -23,3 +23,7 @@ export const SERVICE_URLS = {
   PRODUCTS: "/products",
   USERS: "/users",
 };
+
+export const SESSION_STORAGE_KEYS = {
+  TOKEN: "token",
+};

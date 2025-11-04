@@ -1,6 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import IconButton from "../common/IconButton";
+import Text from "./Text";
 
 interface Props {
   isOpen: boolean;
@@ -25,9 +26,9 @@ const Dialog: React.FC<Props> = ({
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           {title && (
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+            <Text variant="h2" size="lg" fontWeight="semibold">
               {title}
-            </h2>
+            </Text>
           )}
           <IconButton onClick={onClose} variant="ghost" disabled={disabled}>
             <X className="w-5 h-5" />

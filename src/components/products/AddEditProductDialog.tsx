@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createProduct, updateProduct } from "../../services/productService";
 import Button from "../common/Button";
-import type { IError, IProductForm } from "../../types";
+import type { IProductForm } from "../../types";
 import FormInput from "../common/FormInput";
 import Dialog from "../common/Dialog";
 
@@ -66,8 +66,8 @@ const AddEditProductDialog: React.FC<Props> = ({
       onSuccess?.();
       onClose();
     } catch (error) {
-      const errorObj = error as IError;
-      setFormErrors(errorObj.errors);
+      const errorObj = error as Record<string, string>;
+      setFormErrors(errorObj);
     } finally {
       setLoading(false);
     }

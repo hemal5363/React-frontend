@@ -20,6 +20,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  hoverLink?: boolean;
 }
 
 const LinkButton: React.FC<Props> = ({
@@ -27,11 +28,18 @@ const LinkButton: React.FC<Props> = ({
   to,
   variant = "link",
   size = "none",
+  hoverLink = false,
   ...props
 }) => {
   return (
     <Link to={to}>
-      <Button {...props} variant={variant} size={size} type="button">
+      <Button
+        {...props}
+        variant={variant}
+        size={size}
+        hoverLink={hoverLink}
+        type="button"
+      >
         {children}
       </Button>
     </Link>

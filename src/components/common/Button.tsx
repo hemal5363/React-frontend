@@ -18,6 +18,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  className?: string;
+  hoverLink?: boolean;
 }
 
 const VARIANT_CLASSES: Record<Variant, string> = {
@@ -33,7 +35,7 @@ const VARIANT_CLASSES: Record<Variant, string> = {
     "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700",
   outline:
     "border border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700",
-  link: "text-gray-700 hover:underline dark:text-gray-200",
+  link: "text-gray-700 dark:text-gray-200",
 };
 
 const SIZE_CLASSES: Record<Size, string> = {
@@ -52,6 +54,8 @@ const Button: React.FC<ButtonProps> = ({
   leftIcon,
   rightIcon,
   disabled,
+  className,
+  hoverLink = false,
   ...props
 }) => {
   return (
@@ -60,7 +64,7 @@ const Button: React.FC<ButtonProps> = ({
         VARIANT_CLASSES[variant]
       } ${SIZE_CLASSES[size]} ${fullWidth ? "w-full" : ""} ${
         disabled || isLoading ? "opacity-60 cursor-not-allowed" : ""
-      }`}
+      } ${className} ${hoverLink ? "hover:underline" : ""}`}
       disabled={disabled || isLoading}
       {...props}
     >

@@ -3,7 +3,10 @@ import type { ILoginForm, IRegisterForm } from "../types";
 import { SERVICE_URLS } from "../utils/constant";
 
 export const registerUser = async (user: IRegisterForm) => {
-  const response = await customAxios.post(SERVICE_URLS.AUTH, user);
+  const response = await customAxios.post(
+    `${SERVICE_URLS.AUTH}/register`,
+    user
+  );
   return response.data;
 };
 

@@ -21,7 +21,7 @@ export const LISTING_VIEW = {
 export const SERVICE_URLS = {
   AUTH: "/auth",
   PRODUCTS: "/products",
-  USERS: "/users",
+  USER: "/user",
 };
 
 export const SESSION_STORAGE_KEYS = {

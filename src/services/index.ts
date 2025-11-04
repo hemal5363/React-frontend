@@ -36,7 +36,7 @@ customAxios.interceptors.response.use(
     // Global error handling
     if (error.response && error.response.data) {
       if (["post", "patch"].includes(error.response.config.method)) {
-        if (error.response.data.errors.length > 0) {
+        if (Object.keys(error.response.data.errors).length > 0) {
           return Promise.reject(error.response.data.errors);
         }
         toastError(error.response.data.message);

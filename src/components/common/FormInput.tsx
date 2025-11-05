@@ -1,9 +1,10 @@
 import React from "react";
+import { Search } from "lucide-react";
 
 interface FormInputProps {
-  label: string;
+  label?: string;
   name: string;
-  type?: "text" | "email" | "password" | "number";
+  type?: "text" | "email" | "password" | "number" | "search";
   value: string | number;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -12,6 +13,9 @@ interface FormInputProps {
   required?: boolean;
   textarea?: boolean;
   error?: string;
+  showSearchIcon?: boolean;
+  className?: string;
+  fullWidth?: boolean;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -24,16 +28,21 @@ const FormInput: React.FC<FormInputProps> = ({
   required = false,
   textarea = false,
   error,
+  showSearchIcon = false,
+  className,
+  fullWidth = true,
 }) => {
   return (
-    <div className="w-full">
-      <label
-        htmlFor={name}
-        className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-200"
-      >
-        {label}
-        {required && <span className="text-red-500 ml-0.5">*</span>}
-      </label>
+    <div className={`${fullWidth && "w-full"} relative`}>
+      {label && (
+        <label
+          htmlFor={name}
+          className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-200"
+        >
+          {label}
+          {required && <span className="text-red-500 ml-0.5">*</span>}
+        </label>
+      )}
 
       {textarea ? (
         <textarea
@@ -49,18 +58,29 @@ const FormInput: React.FC<FormInputProps> = ({
           }`}
         />
       ) : (
-        <input
-          id={name}
-          name={name}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          required={required}
-          className={`w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
-            error ? "border-red-500" : "border-gray-300"
-          }`}
-        />
+        <div className="relative">
+          {showSearchIcon && (
+            <Search
+              className="absolute left-3 top-1/4 -translate-y-1/2 text-gray-400"
+              size={18}
+            />
+          )}
+
+          <input
+            id={name}
+            name={name}
+            type={type}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
+            className={`${fullWidth ? "w-full" : ""} p-2 ${
+              showSearchIcon ? "pl-10" : ""
+            } border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
+              error ? "border-red-500" : "border-gray-300"
+            } ${className}`}
+          />
+        </div>
       )}
 
       {error && <p className="text-sm text-red-500 mt-1">{error}</p>}

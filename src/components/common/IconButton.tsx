@@ -41,7 +41,11 @@ const IconButton: React.FC<IconButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`rounded-md transition-colors ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} flex items-center justify-center ${className}`}
+      className={`rounded-md transition-colors ${VARIANT_CLASSES[variant]} ${
+        SIZE_CLASSES[size]
+      } flex items-center justify-center ${
+        disabled ? "opacity-60 cursor-not-allowed" : ""
+      } ${className}`}
       disabled={disabled}
     >
       {children}

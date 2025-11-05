@@ -1,40 +1,55 @@
-import React, { useEffect, useState } from "react";
-import { LayoutList, IdCard } from "lucide-react";
-import type { IProduct, IProductForm } from "../../types";
+import React, { useCallback, useEffect, useState } from "react";
+import type { IPagination, IProduct, IProductForm } from "../../types";
 import { deleteProduct, getAllProducts } from "../../services/productService";
-import CardView from "../../components/products/CardView";
 import TableView from "../../components/products/TableView";
 import MainWithLoader from "../../components/layout/MainWithLoader";
-import { LISTING_VIEW } from "../../utils/constant";
-import IconButton from "../../components/common/IconButton";
+import { DEFAULT_PAGINATION } from "../../utils/constant";
 import Button from "../../components/common/Button";
 import AddEditProductDialog from "../../components/products/AddEditProductDialog";
 import DeleteDialog from "../../components/common/DeleteDialog";
 import Text from "../../components/common/Text";
+import FormInput from "../../components/common/FormInput";
 
 const ProductList: React.FC = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [view, setView] = useState(LISTING_VIEW.CARD);
   const [loading, setLoading] = useState(true);
   const [openAddEditDialog, setAddEditDialog] = useState(false);
   const [reload, setReload] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   const [openDeleteDialog, setDeleteDialog] = useState(false);
   const [isDeleteLoading, setDeleteLoading] = useState(false);
+  const [tableData, setTableData] = useState<{
+    rows: IProduct[];
+    pagination: IPagination;
+  }>({ rows: [], pagination: DEFAULT_PAGINATION });
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    (async () => {
+  const getProducts = useCallback(
+    async (page?: number, sortBy?: string, order?: string) => {
       setLoading(true);
       try {
-        const data = await getAllProducts();
-        setProducts(data);
+        const { products, pagination: dbPagination } = await getAllProducts(
+          page,
+          search,
+          sortBy,
+          order
+        );
+        setTableData({ rows: products, pagination: dbPagination });
       } catch (error) {
         console.log(error);
       } finally {
         setLoading(false);
       }
-    })();
-  }, [reload]);
+    },
+    [search]
+  );
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      getProducts();
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [getProducts, search, reload]);
 
   const onEditClick = (product: IProduct) => {
     setSelectedProduct(product);
@@ -50,10 +65,15 @@ const ProductList: React.FC = () => {
     setDeleteLoading(true);
     try {
       await deleteProduct(selectedProduct!.id);
-      setReload(!reload);
+      getProducts(
+        tableData.pagination.page,
+        tableData.pagination.sortBy,
+        tableData.pagination.order
+      );
     } catch (error) {
       console.log(error);
     } finally {
+      setDeleteLoading(false);
       onClose();
     }
   };
@@ -71,40 +91,31 @@ const ProductList: React.FC = () => {
           Products
         </Text>
 
+        <FormInput
+          type="search"
+          placeholder="Search..."
+          showSearchIcon
+          name="search"
+          onChange={(event) => setSearch(event.target.value)}
+          value={search}
+          fullWidth={false}
+        />
+
         {/* View Toggle */}
         <div className="flex gap-2 justify-end">
           <Button variant="success" onClick={() => setAddEditDialog(true)}>
             Add Product
           </Button>
-          <IconButton
-            onClick={() => setView(LISTING_VIEW.CARD)}
-            variant={view === LISTING_VIEW.CARD ? "primary" : "secondary"}
-          >
-            <IdCard size={20} />
-          </IconButton>
-          <IconButton
-            onClick={() => setView(LISTING_VIEW.LIST)}
-            variant={view === LISTING_VIEW.LIST ? "primary" : "secondary"}
-          >
-            <LayoutList size={20} />
-          </IconButton>
         </div>
       </div>
 
       {/* Products */}
-      {view === LISTING_VIEW.CARD ? (
-        <CardView
-          products={products}
-          onDeleteClick={onDeleteClick}
-          onEditClick={onEditClick}
-        />
-      ) : (
-        <TableView
-          products={products}
-          onDeleteClick={onDeleteClick}
-          onEditClick={onEditClick}
-        />
-      )}
+      <TableView
+        tableData={tableData}
+        onDeleteClick={onDeleteClick}
+        onEditClick={onEditClick}
+        getProducts={getProducts}
+      />
 
       <AddEditProductDialog
         isOpen={openAddEditDialog}

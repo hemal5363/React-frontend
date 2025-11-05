@@ -1,5 +1,5 @@
 import axios from "axios";
-import { navigateTo, toastError, toastSuccess } from "../utils/helper";
+import { logOut, navigateTo, toastError, toastSuccess } from "../utils/helper";
 import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "../utils/constant";
 
 const customAxios = axios.create({
@@ -29,6 +29,10 @@ customAxios.interceptors.response.use(
     }
     if (response && response.data && response.data.token) {
       sessionStorage.setItem(SESSION_STORAGE_KEYS.TOKEN, response.data.token);
+      sessionStorage.setItem(
+        SESSION_STORAGE_KEYS.USER_DATA,
+        JSON.stringify(response.data.data)
+      );
     }
     return response.data;
   },
@@ -54,9 +58,12 @@ customAxios.interceptors.response.use(
     }
     if (
       error.response &&
-      error.response.data.message.toLowerCase().includes("token")
+      error.response.data &&
+      error.response.data.errors &&
+      error.response.data.errors.token
     ) {
-      toastError(error.response.data.message);
+      toastError(error.response.data.errors.token);
+      logOut();
       navigateTo(PAGE_ROUTE_URLS.LOGIN);
       return Promise.reject(error);
     }

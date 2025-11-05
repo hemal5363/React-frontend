@@ -37,3 +37,23 @@ export interface IResetForm {
   password: string;
   confirmPassword: string;
 }
+
+export interface IPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  sortBy: string;
+  order: string;
+}
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  created_at: string;
+  updated_at: string;
+}

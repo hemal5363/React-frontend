@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "./constant";
+import type { IUser } from "../types";
 
 export const getNewDate = (date?: Date | undefined | string) => {
   return new Date(date || Date.now());
@@ -23,8 +24,16 @@ export const isUserLogin = () => {
 
 export const logOut = () => {
   sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN);
+  sessionStorage.removeItem(SESSION_STORAGE_KEYS.USER_DATA);
   navigateTo(PAGE_ROUTE_URLS.LOGIN);
 };
+
+export const getUserData = (): IUser => {
+  const data = sessionStorage.getItem(SESSION_STORAGE_KEYS.USER_DATA);
+  return JSON.parse(data || "{}");
+};
+
+export const isAdmin = () => getUserData().role === "admin";
 
 let navigateFn: (path: string) => void;
 

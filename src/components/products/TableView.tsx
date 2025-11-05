@@ -1,33 +1,37 @@
 import React from "react";
-import type { IProduct } from "../../types";
+import type { IPagination, IProduct } from "../../types";
 import { priceFormat } from "../../utils/helper";
 import Table from "../common/Table";
 import IconButton from "../common/IconButton";
 import { Pencil, Trash } from "lucide-react";
 
 interface TableViewProps {
-  products: IProduct[];
+  tableData: { rows: IProduct[]; pagination: IPagination };
   onDeleteClick: (product: IProduct) => void;
   onEditClick: (product: IProduct) => void;
+  getProducts: (page?: number) => void;
 }
 
 const TableView: React.FC<TableViewProps> = ({
-  products,
+  tableData,
   onDeleteClick,
   onEditClick,
+  getProducts,
 }) => {
   const columns = [
-    { key: "name", label: "Name" },
+    { key: "name", label: "Name", sortable: true },
     { key: "description", label: "Description" },
     {
       key: "unit_price",
       label: "Price",
       render: (product: IProduct) => priceFormat(product.unit_price),
+      sortable: true,
     },
-    { key: "quantity", label: "Quantity" },
+    { key: "quantity", label: "Quantity", sortable: true },
     {
       key: "created_at",
       label: "Created At",
+      sortable: true,
     },
     {
       key: "action",
@@ -53,7 +57,9 @@ const TableView: React.FC<TableViewProps> = ({
     },
   ];
 
-  return <Table data={products} columns={columns} />;
+  return (
+    <Table data={tableData} columns={columns} onPageChange={getProducts} />
+  );
 };
 
 export default TableView;

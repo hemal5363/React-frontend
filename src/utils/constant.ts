@@ -5,13 +5,9 @@ export const PAGE_ROUTE_URLS = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password/:token",
   PRODUCT_LIST: "/product-list",
+  PRODUCTS: "/products",
   UNKNOWN: "*",
 };
-
-export const HEADER_LINKS = [
-  { name: "Home", path: PAGE_ROUTE_URLS.HOME },
-  { name: "Products", path: PAGE_ROUTE_URLS.PRODUCT_LIST },
-];
 
 export const SERVICE_URLS = {
   AUTH: "/auth",

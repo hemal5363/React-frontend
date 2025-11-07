@@ -10,10 +10,12 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import OpenRoute from "./components/routes/OpenRoute";
+import Products from "./pages/products/Products";
 
 const App: React.FC = () => {
   const protectedRoutes = [
     { path: PAGE_ROUTE_URLS.PRODUCT_LIST, element: <ProductList /> },
+    { path: PAGE_ROUTE_URLS.PRODUCTS, element: <Products /> },
   ];
   const openRoutes = [
     { path: PAGE_ROUTE_URLS.LOGIN, element: <Login /> },

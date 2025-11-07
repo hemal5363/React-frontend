@@ -33,7 +33,7 @@ const Login: React.FC = () => {
     setLoading(true);
     try {
       await loginUser(form);
-      navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
+      navigateTo(PAGE_ROUTE_URLS.HOME);
     } catch (error) {
       const errorObj = error as Record<string, string>;
       setFormErrors(errorObj);

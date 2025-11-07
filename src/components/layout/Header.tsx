@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Moon, Sun, X, Menu } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
-import { PAGE_ROUTE_URLS, HEADER_LINKS } from "../../utils/constant";
-import { isUserLogin, logOut } from "../../utils/helper";
+import { PAGE_ROUTE_URLS } from "../../utils/constant";
+import { isAdmin, isUserLogin, logOut } from "../../utils/helper";
 import Button from "../common/Button";
 import LinkButton from "../common/LinkButton";
 import IconButton from "../common/IconButton";
+
+const HEADER_LINKS = [
+  { name: "Home", path: PAGE_ROUTE_URLS.HOME },
+  {
+    name: "Products",
+    path: isAdmin() ? PAGE_ROUTE_URLS.PRODUCT_LIST : PAGE_ROUTE_URLS.PRODUCTS,
+  },
+];
 
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -100,22 +108,28 @@ const Header: React.FC = () => {
               </li>
             ))}
             <li className="flex gap-4 mt-2">
-              <LinkButton
-                to={PAGE_ROUTE_URLS.LOGIN}
-                variant="ghost"
-                size="sm"
-                onClick={closeMenu}
-              >
-                Login
-              </LinkButton>
-              <LinkButton
-                to={PAGE_ROUTE_URLS.REGISTER}
-                variant="primary"
-                size="sm"
-                onClick={closeMenu}
-              >
-                Register
-              </LinkButton>
+              {isUserLogin() ? (
+                <>
+                  <Button size="sm" onClick={logOut}>Logout</Button>
+                </>
+              ) : (
+                <>
+                  <LinkButton
+                    to={PAGE_ROUTE_URLS.LOGIN}
+                    variant="ghost"
+                    size="sm"
+                  >
+                    Login
+                  </LinkButton>
+                  <LinkButton
+                    to={PAGE_ROUTE_URLS.REGISTER}
+                    variant="primary"
+                    size="sm"
+                  >
+                    Register
+                  </LinkButton>
+                </>
+              )}
             </li>
           </ul>
         </div>

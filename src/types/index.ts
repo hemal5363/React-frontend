@@ -57,3 +57,8 @@ export interface IUser {
   created_at: string;
   updated_at: string;
 }
+
+export interface ISelectOption {
+  label: string;
+  value: string | number;
+}

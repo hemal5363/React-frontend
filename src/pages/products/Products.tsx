@@ -84,6 +84,7 @@ const Products: React.FC = () => {
             value={sortBy}
             onChange={(event) => setSortBy(event.target.value)}
             hideNullOption
+            width="w-60"
           />
         </div>
       </div>

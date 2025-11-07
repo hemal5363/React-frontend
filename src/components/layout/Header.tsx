@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Moon, Sun, X, Menu } from "lucide-react";
+import { Moon, Sun, X, Menu, User } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import { isAdmin, isUserLogin, logOut } from "../../utils/helper";
@@ -20,13 +20,18 @@ const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
+  const toggleProfileMenu = () => setShowProfileMenu((prev) => !prev);
+  const closeProfileMenu = () => setShowProfileMenu(false);
+
   return (
     <header className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-md sticky top-0 z-50 transition-colors">
-      <nav className="container mx-auto flex items-center justify-between px-6 py-4">
+      <nav className="container mx-auto flex items-center justify-between px-6 py-4 relative">
+        {/* Logo */}
         <LinkButton
           to={PAGE_ROUTE_URLS.HOME}
           className="text-2xl font-bold text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
@@ -52,15 +57,43 @@ const Header: React.FC = () => {
           ))}
         </ul>
 
-        {/* Desktop Auth Buttons + Theme Toggle */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-4 relative">
           <IconButton onClick={toggleTheme} className="rounded-full">
             {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
           </IconButton>
+
           {isUserLogin() ? (
-            <>
-              <Button onClick={logOut}>Logout</Button>
-            </>
+            <div className="relative">
+              <IconButton
+                onClick={toggleProfileMenu}
+                className="rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+              >
+                <User size={20} />
+              </IconButton>
+
+              {showProfileMenu && (
+                <div
+                  className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
+                  onMouseLeave={closeProfileMenu}
+                >
+                  <ul className="py-2 text-center text-sm text-gray-700 dark:text-gray-200">
+                    {/* Future: add Profile or Settings links here */}
+                    <li>
+                      <Button
+                        onClick={() => {
+                          logOut();
+                          closeProfileMenu();
+                        }}
+                        size="sm"
+                      >
+                        Logout
+                      </Button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <LinkButton to={PAGE_ROUTE_URLS.LOGIN} variant="ghost" size="md">
@@ -77,7 +110,7 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Toggle */}
         <div className="flex md:hidden items-center gap-4">
           <IconButton onClick={toggleTheme} className="rounded-full">
             {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
@@ -88,7 +121,7 @@ const Header: React.FC = () => {
         </div>
       </nav>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown */}
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors">
           <ul className="flex flex-col items-center gap-4 py-4 text-sm font-medium">
@@ -109,9 +142,9 @@ const Header: React.FC = () => {
             ))}
             <li className="flex gap-4 mt-2">
               {isUserLogin() ? (
-                <>
-                  <Button size="sm" onClick={logOut}>Logout</Button>
-                </>
+                <Button size="sm" onClick={logOut}>
+                  Logout
+                </Button>
               ) : (
                 <>
                   <LinkButton

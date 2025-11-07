@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { ISelectOption } from "../../types";
+import { ChevronDown } from "lucide-react";
 
 interface SelectInputProps {
   label?: string;
@@ -12,6 +13,7 @@ interface SelectInputProps {
   error?: string;
   disabled?: boolean;
   hideNullOption?: boolean;
+  width?: string;
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -25,9 +27,39 @@ const SelectInput: React.FC<SelectInputProps> = ({
   error,
   disabled = false,
   hideNullOption = false,
+  width = "w-full",
 }) => {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // close dropdown when clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (optionValue: string | number) => {
+    const fakeEvent = {
+      target: { name, value: optionValue },
+    } as React.ChangeEvent<HTMLSelectElement>;
+    onChange(fakeEvent);
+    setOpen(false);
+  };
+
+  const selectedLabel =
+    options.find((opt) => opt.value === value)?.label ||
+    (!hideNullOption ? placeholder : "");
+
   return (
-    <div className="w-full">
+    <div className={`${width}`} ref={dropdownRef}>
       {label && (
         <label
           htmlFor={name}
@@ -38,30 +70,61 @@ const SelectInput: React.FC<SelectInputProps> = ({
         </label>
       )}
 
-      <select
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        disabled={disabled}
-        className={`w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none 
-        dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100
-        ${error ? "border-red-500" : "border-gray-300"} 
-        ${disabled ? "bg-gray-100 dark:bg-gray-800 cursor-not-allowed" : ""}
-        `}
+      <div
+        className={`relative ${width} border rounded-md p-2 flex justify-between items-center cursor-pointer 
+          ${error ? "border-red-500" : "border-gray-300 dark:border-gray-600"} 
+          ${
+            disabled
+              ? "bg-gray-100 dark:bg-gray-800 cursor-not-allowed"
+              : "bg-white dark:bg-gray-700"
+          } 
+          focus:ring-2 focus:ring-indigo-500 focus:outline-none transition`}
+        onClick={() => !disabled && setOpen(!open)}
       >
-        {!hideNullOption && <option value="">{placeholder}</option>}
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            className="text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-600"
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
+        <span
+          className={`truncate ${
+            value ? "text-gray-900 dark:text-gray-100" : "text-gray-400"
+          }`}
+        >
+          {selectedLabel || placeholder}
+        </span>
+        <ChevronDown
+          className={`transition-transform text-gray-900 dark:text-gray-100 ${
+            open ? "rotate-180" : ""
+          }`}
+          size={18}
+        />
+      </div>
+
+      {/* Dropdown List */}
+      {open && !disabled && (
+        <div
+          className={`absolute ${width} z-50 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-52 overflow-y-auto`}
+        >
+          {!hideNullOption && (
+            <div
+              onClick={() => handleSelect("")}
+              className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+            >
+              {placeholder}
+            </div>
+          )}
+          {options.map((option) => (
+            <div
+              key={option.value}
+              onClick={() => handleSelect(option.value)}
+              className={`px-3 py-2 text-sm cursor-pointer 
+                ${
+                  option.value === value
+                    ? "bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-white"
+                    : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
+      )}
 
       {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>

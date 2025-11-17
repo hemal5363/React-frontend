@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Moon, Sun, X, Menu, User } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
@@ -8,19 +8,29 @@ import Button from "../common/Button";
 import LinkButton from "../common/LinkButton";
 import IconButton from "../common/IconButton";
 
-const HEADER_LINKS = [
-  { name: "Home", path: PAGE_ROUTE_URLS.HOME },
-  {
-    name: "Products",
-    path: isAdmin() ? PAGE_ROUTE_URLS.PRODUCT_LIST : PAGE_ROUTE_URLS.PRODUCTS,
-  },
-];
-
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [headerLists, setHeaderLists] = useState<
+    { name: string; path: string }[]
+  >([]);
+
+  useEffect(() => {
+    const lists = [
+      { name: "Home", path: PAGE_ROUTE_URLS.HOME },
+      {
+        name: "Products",
+        path: isAdmin()
+          ? PAGE_ROUTE_URLS.PRODUCT_LIST
+          : PAGE_ROUTE_URLS.PRODUCTS,
+      },
+      isAdmin() && { name: "Users", path: PAGE_ROUTE_URLS.USERS },
+    ].filter(Boolean) as { name: string; path: string }[];
+    setHeaderLists(lists);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdmin()]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -41,7 +51,7 @@ const Header: React.FC = () => {
 
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
-          {HEADER_LINKS.map((link) => (
+          {headerLists.map((link) => (
             <li key={link.name}>
               <NavLink
                 to={link.path}
@@ -125,7 +135,7 @@ const Header: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors">
           <ul className="flex flex-col items-center gap-4 py-4 text-sm font-medium">
-            {HEADER_LINKS.map((link) => (
+            {headerLists.map((link) => (
               <li key={link.name}>
                 <NavLink
                   to={link.path}

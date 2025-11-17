@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
 import ProductList from "./pages/products/ProductList";
-import { PAGE_ROUTE_URLS } from "./utils/constant";
+import { PAGE_ROUTE_URLS, USER_ROLES } from "./utils/constant";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import ForgotPassword from "./pages/auth/ForgotPassword";
@@ -11,11 +11,25 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import OpenRoute from "./components/routes/OpenRoute";
 import Products from "./pages/products/Products";
+import Users from "./pages/users/Users";
 
 const App: React.FC = () => {
   const protectedRoutes = [
-    { path: PAGE_ROUTE_URLS.PRODUCT_LIST, element: <ProductList /> },
-    { path: PAGE_ROUTE_URLS.PRODUCTS, element: <Products /> },
+    {
+      path: PAGE_ROUTE_URLS.PRODUCT_LIST,
+      element: <ProductList />,
+      accessBy: [USER_ROLES.ADMIN],
+    },
+    {
+      path: PAGE_ROUTE_URLS.PRODUCTS,
+      element: <Products />,
+      accessBy: [USER_ROLES.USER],
+    },
+    {
+      path: PAGE_ROUTE_URLS.USERS,
+      element: <Users />,
+      accessBy: [USER_ROLES.ADMIN],
+    },
   ];
   const openRoutes = [
     { path: PAGE_ROUTE_URLS.LOGIN, element: <Login /> },
@@ -29,7 +43,9 @@ const App: React.FC = () => {
       {protectedRoutes.map((route) => (
         <Route
           path={route.path}
-          element={<ProtectedRoute element={route.element} />}
+          element={
+            <ProtectedRoute element={route.element} accessBy={route.accessBy} />
+          }
         />
       ))}
       {openRoutes.map((route) => (

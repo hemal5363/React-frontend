@@ -6,6 +6,8 @@ export const PAGE_ROUTE_URLS = {
   RESET_PASSWORD: "/reset-password/:token",
   PRODUCT_LIST: "/product-list",
   PRODUCTS: "/products",
+  USERS: "/users",
+  CHANGE_PASSWORD: "/change-password",
   UNKNOWN: "*",
 };
 
@@ -33,4 +35,9 @@ export const DEFAULT_PAGINATION = {
   hasPrevPage: false,
   sortBy: "created_at",
   order: "asc",
+};
+
+export const USER_ROLES = {
+  ADMIN: "admin",
+  USER: "user",
 };

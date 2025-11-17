@@ -58,6 +58,13 @@ export interface IUser {
   updated_at: string;
 }
 
+export interface IUserForm {
+  id?: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
 export interface ISelectOption {
   label: string;
   value: string | number;

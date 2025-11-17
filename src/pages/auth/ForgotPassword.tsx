@@ -23,9 +23,9 @@ const ForgotPassword: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { resetToken } = await forgotPassword(email);
+      await forgotPassword(email);
       setEmail("");
-      navigateTo(PAGE_ROUTE_URLS.RESET_PASSWORD.replace(":token", resetToken));
+      navigateTo(PAGE_ROUTE_URLS.LOGIN);
     } finally {
       setLoading(false);
     }

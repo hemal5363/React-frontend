@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "./constant";
+import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS, USER_ROLES } from "./constant";
 import type { IUser } from "../types";
 
 export const getNewDate = (date?: Date | undefined | string) => {
@@ -33,7 +33,9 @@ export const getUserData = (): IUser => {
   return JSON.parse(data || "{}");
 };
 
-export const isAdmin = () => getUserData().role === "admin";
+export const isAdmin = () => getUserData().role === USER_ROLES.ADMIN;
+
+export const getUserRole = () => getUserData().role;
 
 let navigateFn: (path: string) => void;
 

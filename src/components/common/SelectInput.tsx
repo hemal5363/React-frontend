@@ -59,7 +59,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
     (!hideNullOption ? placeholder : "");
 
   return (
-    <div className={`${width}`} ref={dropdownRef}>
+    <div className={`${width} relative`} ref={dropdownRef}>
       {label && (
         <label
           htmlFor={name}

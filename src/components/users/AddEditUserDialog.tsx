@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { createUser, updateUser } from "../../services/userService";
 import type { IUserForm } from "../../types";
 import { USER_ROLES } from "../../utils/constant";
+import { asyncErrorHandler } from "../../utils/helper";
 
 import Button from "../common/Button";
 import Dialog from "../common/Dialog";
@@ -59,11 +60,11 @@ const AddEditUserDialog: React.FC<Props> = ({
     setFormErrors({ ...formErrors, [event.target.name]: "" });
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoading(true);
+  const handleSubmit = asyncErrorHandler(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      setLoading(true);
 
-    try {
       if (formData && formData.id) {
         if (formData === form) {
           onClose();
@@ -75,13 +76,10 @@ const AddEditUserDialog: React.FC<Props> = ({
       }
       onSuccess?.();
       onClose();
-    } catch (error) {
-      const errorObj = error as Record<string, string>;
-      setFormErrors(errorObj);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    setLoading,
+    setFormErrors
+  );
 
   if (!isOpen) return null;
 
@@ -129,7 +127,7 @@ const AddEditUserDialog: React.FC<Props> = ({
             Cancel
           </Button>
           <Button type="submit" isLoading={loading}>
-            {`${formData && formData.id ? "Edit" : "Add"} Product`}
+            {`${formData && formData.id ? "Edit" : "Add"} User`}
           </Button>
         </div>
       </form>

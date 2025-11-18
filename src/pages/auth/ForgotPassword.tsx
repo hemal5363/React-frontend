@@ -7,7 +7,7 @@ import Text from "../../components/common/Text";
 import MainWithLoader from "../../components/layout/MainWithLoader";
 import { forgotPassword } from "../../services/authService";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import { navigateTo } from "../../utils/helper";
+import { asyncErrorHandler, navigateTo } from "../../utils/helper";
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -20,17 +20,13 @@ const ForgotPassword: React.FC = () => {
     setEmail(value);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = asyncErrorHandler(async (event: React.FormEvent) => {
+    event.preventDefault();
     setLoading(true);
-    try {
-      await forgotPassword(email);
-      setEmail("");
-      navigateTo(PAGE_ROUTE_URLS.LOGIN);
-    } finally {
-      setLoading(false);
-    }
-  };
+    await forgotPassword(email);
+    setEmail("");
+    navigateTo(PAGE_ROUTE_URLS.LOGIN);
+  }, setLoading);
 
   return (
     <MainWithLoader>

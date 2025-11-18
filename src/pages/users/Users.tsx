@@ -10,6 +10,7 @@ import TableView from "../../components/users/TableView";
 import { deleteUser, getAllUsers } from "../../services/userService";
 import type { IPagination, IUser } from "../../types";
 import { DEFAULT_PAGINATION } from "../../utils/constant";
+import { asyncErrorHandler } from "../../utils/helper";
 
 const Users: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -24,10 +25,11 @@ const Users: React.FC = () => {
   }>({ rows: [], pagination: DEFAULT_PAGINATION });
   const [search, setSearch] = useState("");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUsers = useCallback(
-    async (page?: number, sortBy?: string, order?: string) => {
-      setLoading(true);
-      try {
+    asyncErrorHandler(
+      async (page?: number, sortBy?: string, order?: string) => {
+        setLoading(true);
         const { users, pagination: dbPagination } = await getAllUsers(
           page,
           search,
@@ -35,12 +37,9 @@ const Users: React.FC = () => {
           order
         );
         setTableData({ rows: users, pagination: dbPagination });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    },
+      },
+      setLoading
+    ),
     [search]
   );
 
@@ -62,22 +61,21 @@ const Users: React.FC = () => {
     setDeleteDialog(true);
   };
 
-  const onDeleteSuccess = async () => {
-    setDeleteLoading(true);
-    try {
+  const onDeleteSuccess = asyncErrorHandler(
+    async () => {
+      setDeleteLoading(true);
       await deleteUser(selectedUser!.id);
       getUsers(
         tableData.pagination.page,
         tableData.pagination.sortBy,
         tableData.pagination.order
       );
-    } catch (error) {
-      console.log(error);
-    } finally {
+    },
+    () => {
       setDeleteLoading(false);
       onClose();
     }
-  };
+  );
 
   const onClose = () => {
     setSelectedUser(null);

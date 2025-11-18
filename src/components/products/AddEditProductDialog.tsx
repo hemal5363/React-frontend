@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { createProduct, updateProduct } from "../../services/productService";
 import type { IProductForm } from "../../types";
+import { asyncErrorHandler } from "../../utils/helper";
 
 import Button from "../common/Button";
 import Dialog from "../common/Dialog";
@@ -51,11 +52,11 @@ const AddEditProductDialog: React.FC<Props> = ({
     setFormErrors({ ...formErrors, [event.target.name]: "" });
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoading(true);
+  const handleSubmit = asyncErrorHandler(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      setLoading(true);
 
-    try {
       if (formData && formData.id) {
         if (formData === form) {
           onClose();
@@ -67,13 +68,10 @@ const AddEditProductDialog: React.FC<Props> = ({
       }
       onSuccess?.();
       onClose();
-    } catch (error) {
-      const errorObj = error as Record<string, string>;
-      setFormErrors(errorObj);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    setLoading,
+    setFormErrors
+  );
 
   if (!isOpen) return null;
 

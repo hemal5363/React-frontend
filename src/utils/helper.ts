@@ -39,6 +39,17 @@ export const isAdmin = () => getUserData().role === USER_ROLES.ADMIN;
 
 export const getUserRole = () => getUserData().role;
 
+export const asyncErrorHandler =
+  <T extends unknown[]>(
+    asyncFunction: (...args: T) => Promise<void>,
+    finallyCallback?: (loading: boolean) => void,
+    catchCallback?: (formErrors: Record<string, string>) => void
+  ) =>
+  (...args: T) =>
+    asyncFunction(...args)
+      .catch((error) => catchCallback?.(error))
+      .finally(() => finallyCallback?.(false));
+
 let navigateFn: (path: string) => void;
 
 export const setNavigate = (fn: (path: string) => void) => {

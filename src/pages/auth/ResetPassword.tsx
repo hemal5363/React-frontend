@@ -10,7 +10,7 @@ import MainWithLoader from "../../components/layout/MainWithLoader";
 import { resetPassword } from "../../services/authService";
 import type { IResetForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import { toastError } from "../../utils/helper";
+import { asyncErrorHandler, toastError } from "../../utils/helper";
 
 const initialForm: IResetForm = {
   password: "",
@@ -33,31 +33,28 @@ const ResetPassword: React.FC = () => {
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = asyncErrorHandler(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
-      setFormErrors({ confirmPassword: "Passwords do not match" });
-      return;
-    }
+      if (form.password !== form.confirmPassword) {
+        setFormErrors({ confirmPassword: "Passwords do not match" });
+        return;
+      }
 
-    if (!token) {
-      toastError("Invalid or missing token");
-      return;
-    }
+      if (!token) {
+        toastError("Invalid or missing token");
+        return;
+      }
 
-    setLoading(true);
-    try {
+      setLoading(true);
       await resetPassword(token, form.password);
       setSuccess(true);
       setForm(initialForm);
-    } catch (error) {
-      const errorObj = error as Record<string, string>;
-      setFormErrors(errorObj);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    setLoading,
+    setFormErrors
+  );
 
   return (
     <MainWithLoader>

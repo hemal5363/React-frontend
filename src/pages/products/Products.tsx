@@ -8,6 +8,7 @@ import SelectInput from "../../components/common/SelectInput";
 import { getAllProducts } from "../../services/productService";
 import type { IPagination, IProduct } from "../../types";
 import { DEFAULT_PAGINATION } from "../../utils/constant";
+import { asyncErrorHandler } from "../../utils/helper";
 
 const SORT_OPTIONS = [
   { value: "created_at desc", label: "Created At (New to Old)" },
@@ -29,25 +30,20 @@ const Products: React.FC = () => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<string>(SORT_OPTIONS[0].value);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getProducts = useCallback(
-    async (page?: number) => {
-      try {
-        const { products, pagination: dbPagination } = await getAllProducts(
-          page,
-          search,
-          sortBy.split(" ")[0],
-          sortBy.split(" ")[1]
-        );
-        setTableData((prevTableData) => ({
-          rows: [...prevTableData.rows, ...products],
-          pagination: dbPagination,
-        }));
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    },
+    asyncErrorHandler(async (page?: number) => {
+      const { products, pagination: dbPagination } = await getAllProducts(
+        page,
+        search,
+        sortBy.split(" ")[0],
+        sortBy.split(" ")[1]
+      );
+      setTableData((prevTableData) => ({
+        rows: [...prevTableData.rows, ...products],
+        pagination: dbPagination,
+      }));
+    }, setLoading),
     [search, sortBy]
   );
 

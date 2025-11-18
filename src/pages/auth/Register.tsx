@@ -9,7 +9,7 @@ import MainWithLoader from "../../components/layout/MainWithLoader";
 import { registerUser } from "../../services/authService";
 import type { IRegisterForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import { navigateTo } from "../../utils/helper";
+import { asyncErrorHandler, navigateTo } from "../../utils/helper";
 
 const initialForm: IRegisterForm = {
   name: "",
@@ -31,29 +31,26 @@ const Register: React.FC = () => {
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = asyncErrorHandler(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
-      setFormErrors((prev) => ({
-        ...prev,
-        confirmPassword: "Passwords do not match",
-      }));
-      return;
-    }
+      if (form.password !== form.confirmPassword) {
+        setFormErrors((prev) => ({
+          ...prev,
+          confirmPassword: "Passwords do not match",
+        }));
+        return;
+      }
 
-    setLoading(true);
-    try {
+      setLoading(true);
       await registerUser(form);
       setForm(initialForm);
       navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
-    } catch (error) {
-      const errorObj = error as Record<string, string>;
-      setFormErrors(errorObj);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    setLoading,
+    setFormErrors
+  );
 
   return (
     <MainWithLoader>

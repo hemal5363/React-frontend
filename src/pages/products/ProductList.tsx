@@ -10,6 +10,7 @@ import MainWithLoader from "../../components/layout/MainWithLoader";
 import { deleteProduct, getAllProducts } from "../../services/productService";
 import type { IPagination, IProduct, IProductForm } from "../../types";
 import { DEFAULT_PAGINATION } from "../../utils/constant";
+import { asyncErrorHandler } from "../../utils/helper";
 
 const ProductList: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -24,10 +25,11 @@ const ProductList: React.FC = () => {
   }>({ rows: [], pagination: DEFAULT_PAGINATION });
   const [search, setSearch] = useState("");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getProducts = useCallback(
-    async (page?: number, sortBy?: string, order?: string) => {
-      setLoading(true);
-      try {
+    asyncErrorHandler(
+      async (page?: number, sortBy?: string, order?: string) => {
+        setLoading(true);
         const { products, pagination: dbPagination } = await getAllProducts(
           page,
           search,
@@ -35,12 +37,9 @@ const ProductList: React.FC = () => {
           order
         );
         setTableData({ rows: products, pagination: dbPagination });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    },
+      },
+      setLoading
+    ),
     [search]
   );
 
@@ -62,22 +61,21 @@ const ProductList: React.FC = () => {
     setDeleteDialog(true);
   };
 
-  const onDeleteSuccess = async () => {
-    setDeleteLoading(true);
-    try {
+  const onDeleteSuccess = asyncErrorHandler(
+    async () => {
+      setDeleteLoading(true);
       await deleteProduct(selectedProduct!.id);
       getProducts(
         tableData.pagination.page,
         tableData.pagination.sortBy,
         tableData.pagination.order
       );
-    } catch (error) {
-      console.log(error);
-    } finally {
+    },
+    () => {
       setDeleteLoading(false);
       onClose();
     }
-  };
+  );
 
   const onClose = () => {
     setSelectedProduct(null);

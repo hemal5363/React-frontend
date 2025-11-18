@@ -6,7 +6,7 @@ import FormInput from "../../components/common/FormInput";
 import Text from "../../components/common/Text";
 import MainWithLoader from "../../components/layout/MainWithLoader";
 import { UpdatePassword } from "../../services/userService";
-import { logOut } from "../../utils/helper";
+import { asyncErrorHandler, logOut } from "../../utils/helper";
 
 interface IPasswordForm {
   currentPassword: string;
@@ -22,7 +22,7 @@ const initialForm: IPasswordForm = {
 
 const ChangePassword: React.FC = () => {
   const [form, setForm] = useState<IPasswordForm>(initialForm);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
   const handleChange = (
@@ -30,31 +30,29 @@ const ChangePassword: React.FC = () => {
   ) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setFormErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = asyncErrorHandler(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
 
-    if (form.newPassword !== form.confirmPassword) {
-      setErrors((prev) => ({
-        ...prev,
-        confirmPassword: "Passwords do not match",
-      }));
-      return;
-    }
+      if (form.newPassword !== form.confirmPassword) {
+        setFormErrors((prev) => ({
+          ...prev,
+          confirmPassword: "Passwords do not match",
+        }));
+        return;
+      }
 
-    setLoading(true);
-    try {
+      setLoading(true);
       await UpdatePassword(form.currentPassword, form.newPassword);
       setForm(initialForm);
       logOut();
-    } catch (error) {
-      setErrors(error as Record<string, string>);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    setLoading,
+    setFormErrors
+  );
 
   return (
     <MainWithLoader>
@@ -77,7 +75,7 @@ const ChangePassword: React.FC = () => {
               type="password"
               value={form.currentPassword}
               onChange={handleChange}
-              error={errors.currentPassword}
+              error={formErrors.currentPassword}
               required
             />
 
@@ -87,7 +85,7 @@ const ChangePassword: React.FC = () => {
               type="password"
               value={form.newPassword}
               onChange={handleChange}
-              error={errors.newPassword}
+              error={formErrors.newPassword}
               required
             />
 
@@ -97,7 +95,7 @@ const ChangePassword: React.FC = () => {
               type="password"
               value={form.confirmPassword}
               onChange={handleChange}
-              error={errors.confirmPassword}
+              error={formErrors.confirmPassword}
               required
             />
 

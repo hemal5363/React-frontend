@@ -9,7 +9,7 @@ import MainWithLoader from "../../components/layout/MainWithLoader";
 import { loginUser } from "../../services/authService";
 import type { ILoginForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import { navigateTo } from "../../utils/helper";
+import { asyncErrorHandler, navigateTo } from "../../utils/helper";
 
 const initialForm: ILoginForm = {
   email: "",
@@ -29,19 +29,16 @@ const Login: React.FC = () => {
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoading(true);
-    try {
+  const handleSubmit = asyncErrorHandler(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      setLoading(true);
       await loginUser(form);
       navigateTo(PAGE_ROUTE_URLS.HOME);
-    } catch (error) {
-      const errorObj = error as Record<string, string>;
-      setFormErrors(errorObj);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    setLoading,
+    setFormErrors
+  );
 
   return (
     <MainWithLoader>

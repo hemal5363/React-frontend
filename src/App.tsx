@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/routes/ProtectedRoute";
 import OpenRoute from "./components/routes/OpenRoute";
 import Products from "./pages/products/Products";
 import Users from "./pages/users/Users";
+import ChangePassword from "./pages/users/ChangePassword";
 
 const App: React.FC = () => {
   const protectedRoutes = [
@@ -29,6 +30,11 @@ const App: React.FC = () => {
       path: PAGE_ROUTE_URLS.USERS,
       element: <Users />,
       accessBy: [USER_ROLES.ADMIN],
+    },
+    {
+      path: PAGE_ROUTE_URLS.CHANGE_PASSWORD,
+      element: <ChangePassword />,
+      accessBy: [USER_ROLES.USER, USER_ROLES.ADMIN],
     },
   ];
   const openRoutes = [

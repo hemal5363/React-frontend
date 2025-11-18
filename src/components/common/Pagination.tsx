@@ -8,6 +8,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { DEFAULT_PAGINATION_PAGE } from "../../utils/constant";
+import Text from "./Text";
 
 interface PaginationProps {
   pagination: IPagination;
@@ -51,9 +52,9 @@ const Pagination: React.FC<PaginationProps> = ({
             <ChevronLeft />
           </IconButton>
         </div>
-        <span className="text-sm font-medium">
+        <Text size="sm" fontWeight="medium">
           Page {pagination.page} of {pagination.totalPages}
-        </span>
+        </Text>
         <div className="flex">
           <IconButton
             variant="ghost"

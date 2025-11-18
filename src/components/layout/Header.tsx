@@ -90,6 +90,14 @@ const Header: React.FC = () => {
                   <ul className="py-2 text-center text-sm text-gray-700 dark:text-gray-200">
                     {/* Future: add Profile or Settings links here */}
                     <li>
+                      <NavLink
+                        to={PAGE_ROUTE_URLS.CHANGE_PASSWORD}
+                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Change Password
+                      </NavLink>
+                    </li>
+                    <li>
                       <Button
                         onClick={() => {
                           logOut();

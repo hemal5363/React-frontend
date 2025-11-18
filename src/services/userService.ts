@@ -24,6 +24,14 @@ export const updateUser = async (id: string, user: IUserForm) => {
   return response.data;
 };
 
+export const UpdatePassword = async (oldPassword: string, password: string) => {
+  const response = await customAxios.patch(
+    `${SERVICE_URLS.USER}/me/update-password`,
+    { oldPassword, password }
+  );
+  return response.data;
+};
+
 export const deleteUser = async (id: string) => {
   const response = await customAxios.delete(`${SERVICE_URLS.USER}/${id}`);
   return response.data;

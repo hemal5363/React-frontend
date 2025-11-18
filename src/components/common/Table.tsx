@@ -1,17 +1,12 @@
 import React from "react";
 import { ArrowDownZA, ArrowUpAZ } from "lucide-react";
 
-import type { IPagination } from "../../types";
+import type { Column, IPagination } from "../../types";
 import { DEFAULT_PAGINATION_PAGE } from "../../utils/constant";
 
 import Pagination from "./Pagination";
 
-interface Column<T> {
-  key: keyof T | string;
-  label: string;
-  render?: (item: T) => React.ReactNode;
-  sortable?: boolean;
-}
+
 
 interface TableProps<T> {
   data: { rows: T[]; pagination: IPagination };
@@ -31,7 +26,14 @@ const Table = <T extends { id?: string | number }>({
           <thead>
             <tr className="bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white">
               {columns.map((col) => (
-                <th key={col.key as string} className="px-4 py-2">
+                <th
+                  key={col.key as string}
+                  style={{
+                    maxWidth: col.maxWidth || "auto",
+                    minWidth: col.minWidth || "auto",
+                  }}
+                  className="px-4 py-2 break-words"
+                >
                   <div
                     className={`flex items-center gap-1 ${
                       col.sortable && "cursor-pointer"
@@ -70,7 +72,11 @@ const Table = <T extends { id?: string | number }>({
                 {columns.map((col) => (
                   <td
                     key={col.key as string}
-                    className="px-4 py-2 text-gray-900 dark:text-gray-200"
+                    style={{
+                      maxWidth: col.maxWidth || "auto",
+                      minWidth: col.minWidth || "auto",
+                    }}
+                    className="px-4 py-2 text-gray-900 dark:text-gray-200 break-words"
                   >
                     {col.render
                       ? col.render(row)

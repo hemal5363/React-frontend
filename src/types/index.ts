@@ -69,3 +69,12 @@ export interface ISelectOption {
   label: string;
   value: string | number;
 }
+
+export interface Column<T> {
+  key: keyof T | string;
+  label: string;
+  render?: (item: T) => React.ReactNode;
+  sortable?: boolean;
+  maxWidth?: string;
+  minWidth?: string;
+}

@@ -29,10 +29,15 @@ const Header: React.FC = () => {
           : PAGE_ROUTE_URLS.PRODUCTS,
       },
       isAdmin() && { name: "Users", path: PAGE_ROUTE_URLS.USERS },
+      isOpen && { name: "Profile", path: PAGE_ROUTE_URLS.USER_PROFILE },
+      isOpen && {
+        name: "Change Password",
+        path: PAGE_ROUTE_URLS.CHANGE_PASSWORD,
+      },
     ].filter(Boolean) as { name: string; path: string }[];
     setHeaderLists(lists);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAdmin()]);
+  }, [isAdmin(), isOpen]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -91,6 +96,14 @@ const Header: React.FC = () => {
                 >
                   <ul className="py-2 text-center text-sm text-gray-700 dark:text-gray-200">
                     {/* Future: add Profile or Settings links here */}
+                    <li>
+                      <NavLink
+                        to={PAGE_ROUTE_URLS.USER_PROFILE}
+                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Profile
+                      </NavLink>
+                    </li>
                     <li>
                       <NavLink
                         to={PAGE_ROUTE_URLS.CHANGE_PASSWORD}

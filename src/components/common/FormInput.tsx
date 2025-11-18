@@ -16,6 +16,7 @@ interface FormInputProps {
   showSearchIcon?: boolean;
   className?: string;
   fullWidth?: boolean;
+  disabled?: boolean;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -31,6 +32,7 @@ const FormInput: React.FC<FormInputProps> = ({
   showSearchIcon = false,
   className,
   fullWidth = true,
+  disabled = false,
 }) => {
   return (
     <div className={`${fullWidth && "w-full"} relative`}>
@@ -56,6 +58,7 @@ const FormInput: React.FC<FormInputProps> = ({
           className={`w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
             error ? "border-red-500" : "border-gray-300"
           }`}
+          disabled={disabled}
         />
       ) : (
         <div className="relative">
@@ -79,6 +82,7 @@ const FormInput: React.FC<FormInputProps> = ({
             } border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
               error ? "border-red-500" : "border-gray-300"
             } ${className}`}
+            disabled={disabled}
           />
         </div>
       )}

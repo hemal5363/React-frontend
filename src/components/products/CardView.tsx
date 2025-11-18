@@ -47,10 +47,10 @@ const CardView: React.FC<CardViewProps> = ({ tableData, getProducts }) => {
       <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {tableData.rows.map((product) => (
           <Card key={product.id}>
-            <Text variant="h2" size="lg" fontWeight="semibold" className="mb-2">
+            <Text variant="h2" size="lg" fontWeight="semibold" className="mb-2 break-words">
               {product.name}
             </Text>
-            <Text className="mb-4">{product.description}</Text>
+            <Text className="mb-4 break-words">{product.description}</Text>
             <Text fontWeight="bold">
               Price: {priceFormat(product.unit_price)}
             </Text>

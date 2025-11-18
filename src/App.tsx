@@ -14,6 +14,7 @@ import Users from "./pages/users/Users";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
 import { PAGE_ROUTE_URLS, USER_ROLES } from "./utils/constant";
+import UserProfile from "./pages/users/UserProfile";
 
 const App: React.FC = () => {
   const protectedRoutes = [
@@ -35,6 +36,11 @@ const App: React.FC = () => {
     {
       path: PAGE_ROUTE_URLS.CHANGE_PASSWORD,
       element: <ChangePassword />,
+      accessBy: [USER_ROLES.USER, USER_ROLES.ADMIN],
+    },
+    {
+      path: PAGE_ROUTE_URLS.USER_PROFILE,
+      element: <UserProfile />,
       accessBy: [USER_ROLES.USER, USER_ROLES.ADMIN],
     },
   ];

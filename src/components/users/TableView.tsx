@@ -1,7 +1,7 @@
 import React from "react";
 import { Pencil, Trash } from "lucide-react";
 
-import type { IPagination, IUser } from "../../types";
+import type { Column, IPagination, IUser } from "../../types";
 
 import IconButton from "../common/IconButton";
 import Table from "../common/Table";
@@ -19,9 +19,9 @@ const TableView: React.FC<TableViewProps> = ({
   onEditClick,
   getUsers,
 }) => {
-  const columns = [
-    { key: "name", label: "Name", sortable: true },
-    { key: "email", label: "Email", sortable: true },
+  const columns: Column<IUser>[] = [
+    { key: "name", label: "Name", sortable: true, maxWidth: "200px" },
+    { key: "email", label: "Email", sortable: true, maxWidth: "300px" },
     { key: "role", label: "Role", sortable: true },
     {
       key: "created_at",

@@ -35,6 +35,11 @@ const Register: React.FC = () => {
     async (event: React.FormEvent) => {
       event.preventDefault();
 
+      if (!form.name.trim()) {
+        setFormErrors((prev) => ({ ...prev, name: "Name is required" }));
+        return;
+      }
+
       if (form.password !== form.confirmPassword) {
         setFormErrors((prev) => ({
           ...prev,

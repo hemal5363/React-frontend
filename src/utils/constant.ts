@@ -8,6 +8,7 @@ export const PAGE_ROUTE_URLS = {
   PRODUCTS: "/products",
   USERS: "/users",
   CHANGE_PASSWORD: "/change-password",
+  USER_PROFILE: "/user-profile",
   UNKNOWN: "*",
 };
 

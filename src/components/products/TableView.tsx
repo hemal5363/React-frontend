@@ -1,7 +1,7 @@
 import React from "react";
 import { Pencil, Trash } from "lucide-react";
 
-import type { IPagination, IProduct } from "../../types";
+import type { Column, IPagination, IProduct } from "../../types";
 import { priceFormat } from "../../utils/helper";
 
 import IconButton from "../common/IconButton";
@@ -20,9 +20,9 @@ const TableView: React.FC<TableViewProps> = ({
   onEditClick,
   getProducts,
 }) => {
-  const columns = [
-    { key: "name", label: "Name", sortable: true },
-    { key: "description", label: "Description" },
+  const columns: Column<IProduct>[] = [
+    { key: "name", label: "Name", sortable: true, maxWidth: "200px" },
+    { key: "description", label: "Description", maxWidth: "500px" },
     {
       key: "unit_price",
       label: "Price",
@@ -34,6 +34,7 @@ const TableView: React.FC<TableViewProps> = ({
       key: "created_at",
       label: "Created At",
       sortable: true,
+      minWidth: "200px",
     },
     {
       key: "action",

@@ -20,6 +20,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: React.ReactNode;
   className?: string;
   hoverLink?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const VARIANT_CLASSES: Record<Variant, string> = {
@@ -56,6 +57,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   className,
   hoverLink = false,
+  type = "button",
   ...props
 }) => {
   return (
@@ -66,6 +68,7 @@ const Button: React.FC<ButtonProps> = ({
         disabled || isLoading ? "opacity-60 cursor-not-allowed" : ""
       } ${className} ${hoverLink ? "hover:underline" : ""}`}
       disabled={disabled || isLoading}
+      type={type}
       {...props}
     >
       {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}

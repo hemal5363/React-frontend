@@ -25,6 +25,11 @@ export const updateUser = async (id: string, user: IUserForm) => {
   return response.data;
 };
 
+export const deleteUser = async (id: string) => {
+  const response = await customAxios.delete(`${SERVICE_URLS.USER}/${id}`);
+  return response.data;
+};
+
 export const UpdatePassword = async (oldPassword: string, password: string) => {
   const response = await customAxios.patch(
     `${SERVICE_URLS.USER}/me/update-password`,
@@ -33,7 +38,17 @@ export const UpdatePassword = async (oldPassword: string, password: string) => {
   return response.data;
 };
 
-export const deleteUser = async (id: string) => {
-  const response = await customAxios.delete(`${SERVICE_URLS.USER}/${id}`);
+export const getMyProfile = async () => {
+  const response = await customAxios.get(`${SERVICE_URLS.USER}/me`);
+  return response.data;
+};
+
+export const updateMyProfile = async (user: IUserForm) => {
+  const response = await customAxios.patch(`${SERVICE_URLS.USER}/me`, user);
+  return response.data;
+};
+
+export const deleteMyProfile = async () => {
+  const response = await customAxios.delete(`${SERVICE_URLS.USER}/me`);
   return response.data;
 };

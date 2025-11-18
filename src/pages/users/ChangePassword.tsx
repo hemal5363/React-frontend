@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import MainWithLoader from "../../components/layout/MainWithLoader";
+
 import Button from "../../components/common/Button";
-import FormInput from "../../components/common/FormInput";
 import Card from "../../components/common/Card";
+import FormInput from "../../components/common/FormInput";
 import Text from "../../components/common/Text";
-import { logOut } from "../../utils/helper";
+import MainWithLoader from "../../components/layout/MainWithLoader";
 import { UpdatePassword } from "../../services/userService";
+import { logOut } from "../../utils/helper";
 
 interface IPasswordForm {
   currentPassword: string;
@@ -25,15 +26,15 @@ const ChangePassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (form.newPassword !== form.confirmPassword) {
       setErrors((prev) => ({
@@ -48,8 +49,8 @@ const ChangePassword: React.FC = () => {
       await UpdatePassword(form.currentPassword, form.newPassword);
       setForm(initialForm);
       logOut();
-    } catch (err) {
-      setErrors(err as Record<string, string>);
+    } catch (error) {
+      setErrors(error as Record<string, string>);
     } finally {
       setLoading(false);
     }

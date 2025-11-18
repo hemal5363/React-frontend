@@ -1,8 +1,9 @@
 import React from "react";
-import { PAGE_ROUTE_URLS } from "../utils/constant";
-import MainWithLoader from "../components/layout/MainWithLoader";
-import Text from "../components/common/Text";
+
 import LinkButton from "../components/common/LinkButton";
+import Text from "../components/common/Text";
+import MainWithLoader from "../components/layout/MainWithLoader";
+import { PAGE_ROUTE_URLS } from "../utils/constant";
 
 const Home: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
           experience with light and dark mode support.
         </Text>
         <LinkButton
-          to={PAGE_ROUTE_URLS.PRODUCT_LIST}
+          to={PAGE_ROUTE_URLS.PRODUCTS}
           variant="primary"
           size="lg"
           className="mt-8"

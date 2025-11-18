@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Button from "../common/Button";
-import type { IUserForm } from "../../types";
-import FormInput from "../common/FormInput";
-import Dialog from "../common/Dialog";
+
 import { createUser, updateUser } from "../../services/userService";
-import SelectInput from "../common/SelectInput";
+import type { IUserForm } from "../../types";
 import { USER_ROLES } from "../../utils/constant";
+
+import Button from "../common/Button";
+import Dialog from "../common/Dialog";
+import FormInput from "../common/FormInput";
+import SelectInput from "../common/SelectInput";
 
 const ROLE_OPTIONS = [
   { value: USER_ROLES.ADMIN, label: "Admin" },

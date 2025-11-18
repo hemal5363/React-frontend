@@ -1,5 +1,7 @@
 import React from "react";
+
 import { getNewDate } from "../../utils/helper";
+
 import Text from "../common/Text";
 
 const Footer: React.FC = () => {

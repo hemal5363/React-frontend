@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import type { IPagination, IUser } from "../../types";
-import MainWithLoader from "../../components/layout/MainWithLoader";
-import { DEFAULT_PAGINATION } from "../../utils/constant";
+
 import Button from "../../components/common/Button";
 import DeleteDialog from "../../components/common/DeleteDialog";
-import Text from "../../components/common/Text";
 import FormInput from "../../components/common/FormInput";
-import { deleteUser, getAllUsers } from "../../services/userService";
-import TableView from "../../components/users/TableView";
+import Text from "../../components/common/Text";
+import MainWithLoader from "../../components/layout/MainWithLoader";
 import AddEditUserDialog from "../../components/users/AddEditUserDialog";
+import TableView from "../../components/users/TableView";
+import { deleteUser, getAllUsers } from "../../services/userService";
+import type { IPagination, IUser } from "../../types";
+import { DEFAULT_PAGINATION } from "../../utils/constant";
 
 const Users: React.FC = () => {
   const [loading, setLoading] = useState(true);

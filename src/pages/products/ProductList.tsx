@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import type { IPagination, IProduct, IProductForm } from "../../types";
-import { deleteProduct, getAllProducts } from "../../services/productService";
+
+import Button from "../../components/common/Button";
+import DeleteDialog from "../../components/common/DeleteDialog";
+import FormInput from "../../components/common/FormInput";
+import Text from "../../components/common/Text";
+import AddEditProductDialog from "../../components/products/AddEditProductDialog";
 import TableView from "../../components/products/TableView";
 import MainWithLoader from "../../components/layout/MainWithLoader";
+import { deleteProduct, getAllProducts } from "../../services/productService";
+import type { IPagination, IProduct, IProductForm } from "../../types";
 import { DEFAULT_PAGINATION } from "../../utils/constant";
-import Button from "../../components/common/Button";
-import AddEditProductDialog from "../../components/products/AddEditProductDialog";
-import DeleteDialog from "../../components/common/DeleteDialog";
-import Text from "../../components/common/Text";
-import FormInput from "../../components/common/FormInput";
 
 const ProductList: React.FC = () => {
   const [loading, setLoading] = useState(true);

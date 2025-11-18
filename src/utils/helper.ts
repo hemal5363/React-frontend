@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
-import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS, USER_ROLES } from "./constant";
+
 import type { IUser } from "../types";
+
+import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS, USER_ROLES } from "./constant";
 
 export const getNewDate = (date?: Date | undefined | string) => {
   return new Date(date || Date.now());

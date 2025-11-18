@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import type { ISelectOption } from "../../types";
 import { ChevronDown } from "lucide-react";
+
+import type { ISelectOption } from "../../types";
 
 interface SelectInputProps {
   label?: string;

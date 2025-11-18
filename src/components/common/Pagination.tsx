@@ -1,13 +1,15 @@
 import React from "react";
-import type { IPagination } from "../../types";
-import IconButton from "./IconButton";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+
+import type { IPagination } from "../../types";
 import { DEFAULT_PAGINATION_PAGE } from "../../utils/constant";
+
+import IconButton from "./IconButton";
 import Text from "./Text";
 
 interface PaginationProps {

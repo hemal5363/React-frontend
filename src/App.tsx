@@ -1,18 +1,19 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import PageNotFound from "./pages/PageNotFound";
-import ProductList from "./pages/products/ProductList";
-import { PAGE_ROUTE_URLS, USER_ROLES } from "./utils/constant";
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
+
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import OpenRoute from "./components/routes/OpenRoute";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ResetPassword from "./pages/auth/ResetPassword";
+import ProductList from "./pages/products/ProductList";
 import Products from "./pages/products/Products";
-import Users from "./pages/users/Users";
 import ChangePassword from "./pages/users/ChangePassword";
+import Users from "./pages/users/Users";
+import Home from "./pages/Home";
+import PageNotFound from "./pages/PageNotFound";
+import { PAGE_ROUTE_URLS, USER_ROLES } from "./utils/constant";
 
 const App: React.FC = () => {
   const protectedRoutes = [

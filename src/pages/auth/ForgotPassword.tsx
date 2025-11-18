@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import MainWithLoader from "../../components/layout/MainWithLoader";
+
 import Button from "../../components/common/Button";
-import FormInput from "../../components/common/FormInput";
-import { forgotPassword } from "../../services/authService";
-import { navigateTo } from "../../utils/helper";
-import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import Card from "../../components/common/Card";
+import FormInput from "../../components/common/FormInput";
 import Text from "../../components/common/Text";
+import MainWithLoader from "../../components/layout/MainWithLoader";
+import { forgotPassword } from "../../services/authService";
+import { PAGE_ROUTE_URLS } from "../../utils/constant";
+import { navigateTo } from "../../utils/helper";
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState("");

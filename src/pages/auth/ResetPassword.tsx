@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import MainWithLoader from "../../components/layout/MainWithLoader";
+import { useParams } from "react-router-dom";
+
 import Button from "../../components/common/Button";
+import Card from "../../components/common/Card";
 import FormInput from "../../components/common/FormInput";
+import LinkButton from "../../components/common/LinkButton";
+import Text from "../../components/common/Text";
+import MainWithLoader from "../../components/layout/MainWithLoader";
+import { resetPassword } from "../../services/authService";
 import type { IResetForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import LinkButton from "../../components/common/LinkButton";
-import { useParams } from "react-router-dom";
-import { resetPassword } from "../../services/authService";
 import { toastError } from "../../utils/helper";
-import Card from "../../components/common/Card";
-import Text from "../../components/common/Text";
 
 const initialForm: IResetForm = {
   password: "",

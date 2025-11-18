@@ -1,6 +1,7 @@
 // src/routes/OpenRoute.tsx
 import React, { type JSX } from "react";
 import { Navigate } from "react-router-dom";
+
 import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "../../utils/constant";
 
 interface OpenRouteProps {

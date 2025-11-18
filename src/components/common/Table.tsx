@@ -1,8 +1,10 @@
 import React from "react";
-import Pagination from "./Pagination";
-import type { IPagination } from "../../types";
 import { ArrowDownZA, ArrowUpAZ } from "lucide-react";
+
+import type { IPagination } from "../../types";
 import { DEFAULT_PAGINATION_PAGE } from "../../utils/constant";
+
+import Pagination from "./Pagination";
 
 interface Column<T> {
   key: keyof T | string;

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+
 import type { IPagination, IProduct } from "../../types";
 import { priceFormat } from "../../utils/helper";
+
 import Card from "../common/Card";
-import Text from "../common/Text";
 import Loader from "../common/Loader";
+import Text from "../common/Text";
 
 interface CardViewProps {
   tableData: { rows: IProduct[]; pagination: IPagination };

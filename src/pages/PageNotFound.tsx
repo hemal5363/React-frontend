@@ -1,8 +1,9 @@
 import React from "react";
-import { PAGE_ROUTE_URLS } from "../utils/constant";
-import Text from "../components/common/Text";
+
 import LinkButton from "../components/common/LinkButton";
+import Text from "../components/common/Text";
 import MainWithLoader from "../components/layout/MainWithLoader";
+import { PAGE_ROUTE_URLS } from "../utils/constant";
 
 const PageNotFound: React.FC = () => {
   return (

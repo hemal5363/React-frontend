@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import type { IPagination, IProduct } from "../../types";
-import { getAllProducts } from "../../services/productService";
-import MainWithLoader from "../../components/layout/MainWithLoader";
-import { DEFAULT_PAGINATION } from "../../utils/constant";
-import Text from "../../components/common/Text";
+
 import FormInput from "../../components/common/FormInput";
+import Text from "../../components/common/Text";
+import MainWithLoader from "../../components/layout/MainWithLoader";
 import CardView from "../../components/products/CardView";
 import SelectInput from "../../components/common/SelectInput";
+import { getAllProducts } from "../../services/productService";
+import type { IPagination, IProduct } from "../../types";
+import { DEFAULT_PAGINATION } from "../../utils/constant";
 
 const SORT_OPTIONS = [
   { value: "created_at desc", label: "Created At (New to Old)" },

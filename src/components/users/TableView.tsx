@@ -1,8 +1,10 @@
 import React from "react";
-import type { IPagination, IUser } from "../../types";
-import Table from "../common/Table";
-import IconButton from "../common/IconButton";
 import { Pencil, Trash } from "lucide-react";
+
+import type { IPagination, IUser } from "../../types";
+
+import IconButton from "../common/IconButton";
+import Table from "../common/Table";
 
 interface TableViewProps {
   tableData: { rows: IUser[]; pagination: IPagination };

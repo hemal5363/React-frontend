@@ -1,6 +1,8 @@
 import React from "react";
+
 import Button from "../common/Button";
 import Dialog from "../common/Dialog";
+
 import Text from "./Text";
 
 interface Props {

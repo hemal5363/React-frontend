@@ -1,6 +1,8 @@
 import React from "react";
 import { X } from "lucide-react";
+
 import IconButton from "../common/IconButton";
+
 import Text from "./Text";
 
 interface Props {

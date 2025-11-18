@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import MainWithLoader from "../../components/layout/MainWithLoader";
+
 import Button from "../../components/common/Button";
-import type { IRegisterForm } from "../../types";
-import FormInput from "../../components/common/FormInput";
-import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import LinkButton from "../../components/common/LinkButton";
-import { registerUser } from "../../services/authService";
-import { navigateTo } from "../../utils/helper";
 import Card from "../../components/common/Card";
+import FormInput from "../../components/common/FormInput";
+import LinkButton from "../../components/common/LinkButton";
 import Text from "../../components/common/Text";
+import MainWithLoader from "../../components/layout/MainWithLoader";
+import { registerUser } from "../../services/authService";
+import type { IRegisterForm } from "../../types";
+import { PAGE_ROUTE_URLS } from "../../utils/constant";
+import { navigateTo } from "../../utils/helper";
 
 const initialForm: IRegisterForm = {
   name: "",

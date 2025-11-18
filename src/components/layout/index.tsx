@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
+import { useTheme } from "../../context/ThemeContext";
+import { setNavigate } from "../../utils/helper";
+
 import Header from "./Header";
 import Footer from "./Footer";
-import { ToastContainer } from "react-toastify";
-import { useTheme } from "../../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
-import { setNavigate } from "../../utils/helper";
 
 interface LayoutProps {
   children: React.ReactNode;

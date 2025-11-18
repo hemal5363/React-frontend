@@ -1,9 +1,11 @@
 import React from "react";
+import { Pencil, Trash } from "lucide-react";
+
 import type { IPagination, IProduct } from "../../types";
 import { priceFormat } from "../../utils/helper";
-import Table from "../common/Table";
+
 import IconButton from "../common/IconButton";
-import { Pencil, Trash } from "lucide-react";
+import Table from "../common/Table";
 
 interface TableViewProps {
   tableData: { rows: IProduct[]; pagination: IPagination };

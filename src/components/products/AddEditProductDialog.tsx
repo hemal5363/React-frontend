@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+
 import { createProduct, updateProduct } from "../../services/productService";
-import Button from "../common/Button";
 import type { IProductForm } from "../../types";
-import FormInput from "../common/FormInput";
+
+import Button from "../common/Button";
 import Dialog from "../common/Dialog";
+import FormInput from "../common/FormInput";
 
 const initialForm: IProductForm = {
   name: "",

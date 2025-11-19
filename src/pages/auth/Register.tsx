@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { type TokenResponse } from "@react-oauth/google";
 
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
 import FormInput from "../../components/common/FormInput";
+import GoogleButton from "../../components/common/GoogleButton";
 import LinkButton from "../../components/common/LinkButton";
 import Text from "../../components/common/Text";
 import MainWithLoader from "../../components/layout/MainWithLoader";
-import { registerUser } from "../../services/authService";
+import { googleRegister, registerUser } from "../../services/authService";
 import type { IRegisterForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import { asyncErrorHandler, navigateTo } from "../../utils/helper";
@@ -51,10 +53,18 @@ const Register: React.FC = () => {
       setLoading(true);
       await registerUser(form);
       setForm(initialForm);
-      navigateTo(PAGE_ROUTE_URLS.PRODUCT_LIST);
+      navigateTo(PAGE_ROUTE_URLS.HOME);
     },
     setLoading,
     setFormErrors
+  );
+
+  const handleGoogleRegister = asyncErrorHandler(
+    async (response: TokenResponse) => {
+      await googleRegister(response.access_token);
+      navigateTo(PAGE_ROUTE_URLS.HOME);
+    },
+    setLoading
   );
 
   return (
@@ -118,12 +128,23 @@ const Register: React.FC = () => {
             </Button>
           </form>
 
-          <Text size="sm" textCenter className="mt-4">
+          <Text size="sm" textCenter className="my-4">
             Already have an account?{" "}
             <LinkButton to={PAGE_ROUTE_URLS.LOGIN} hoverLink>
               Login here
             </LinkButton>
           </Text>
+
+          <Text size="sm" textCenter className="my-4">
+            Or
+          </Text>
+
+          <GoogleButton
+            onSuccess={handleGoogleRegister}
+            errorMessage="Google Registration Failed"
+            label="Register with Google"
+            loading={loading}
+          />
         </Card>
       </div>
     </MainWithLoader>

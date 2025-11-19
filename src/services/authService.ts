@@ -31,3 +31,18 @@ export const resetPassword = async (token: string, password: string) => {
   );
   return response.data;
 };
+
+export const googleRegister = async (accessToken: string) => {
+  const response = await customAxios.post(
+    `${SERVICE_URLS.AUTH}/google/register`,
+    { accessToken }
+  );
+  return response.data;
+};
+
+export const googleLogin = async (accessToken: string) => {
+  const response = await customAxios.post(`${SERVICE_URLS.AUTH}/google/login`, {
+    accessToken,
+  });
+  return response.data;
+};

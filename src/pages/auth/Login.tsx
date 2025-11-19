@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { type TokenResponse } from "@react-oauth/google";
 
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
 import FormInput from "../../components/common/FormInput";
+import GoogleButton from "../../components/common/GoogleButton";
 import LinkButton from "../../components/common/LinkButton";
 import Text from "../../components/common/Text";
 import MainWithLoader from "../../components/layout/MainWithLoader";
-import { loginUser } from "../../services/authService";
+import { googleLogin, loginUser } from "../../services/authService";
 import type { ILoginForm } from "../../types";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
 import { asyncErrorHandler, navigateTo } from "../../utils/helper";
@@ -38,6 +40,14 @@ const Login: React.FC = () => {
     },
     setLoading,
     setFormErrors
+  );
+
+  const handleGoogleLogin = asyncErrorHandler(
+    async (response: TokenResponse) => {
+      await googleLogin(response.access_token);
+      navigateTo(PAGE_ROUTE_URLS.HOME);
+    },
+    setLoading
   );
 
   return (
@@ -89,12 +99,23 @@ const Login: React.FC = () => {
             </Button>
           </form>
 
-          <Text size="sm" textCenter className="mt-4">
+          <Text size="sm" textCenter className="my-4">
             Don’t have an account?{" "}
             <LinkButton to={PAGE_ROUTE_URLS.REGISTER} hoverLink>
               Register here
             </LinkButton>
           </Text>
+
+          <Text size="sm" textCenter className="my-4">
+            Or
+          </Text>
+
+          <GoogleButton
+            onSuccess={handleGoogleLogin}
+            errorMessage="Google Login Failed"
+            label="Register with Google"
+            loading={loading}
+          />
         </Card>
       </div>
     </MainWithLoader>

@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import App from "./App.tsx";
 import Layout from "./components/layout/index.tsx";
@@ -12,9 +13,11 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <Layout>
-          <App />
-        </Layout>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+          <Layout>
+            <App />
+          </Layout>
+        </GoogleOAuthProvider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>

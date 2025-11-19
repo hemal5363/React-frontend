@@ -61,6 +61,7 @@ const Register: React.FC = () => {
 
   const handleGoogleRegister = asyncErrorHandler(
     async (response: TokenResponse) => {
+      setLoading(true);
       await googleRegister(response.access_token);
       navigateTo(PAGE_ROUTE_URLS.HOME);
     },

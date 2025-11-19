@@ -54,6 +54,9 @@ export interface IUser {
   name: string;
   email: string;
   role: string;
+  googleId?: string;
+  profileKey?: string;
+  profileUrl?: string;
   created_at: string;
   updated_at: string;
 }

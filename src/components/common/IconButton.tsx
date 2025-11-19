@@ -6,7 +6,7 @@ interface IconButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
   variant?: Variant;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "none";
   disabled?: boolean;
   className?: string;
 }
@@ -24,10 +24,11 @@ const VARIANT_CLASSES: Record<Variant, string> = {
     "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700",
 };
 
-const SIZE_CLASSES: Record<"sm" | "md" | "lg", string> = {
+const SIZE_CLASSES: Record<"sm" | "md" | "lg" | "none", string> = {
   sm: "p-1 text-sm",
   md: "p-2 text-base",
   lg: "p-3 text-lg",
+  none: "p-0",
 };
 
 const IconButton: React.FC<IconButtonProps> = ({

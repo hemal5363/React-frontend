@@ -44,6 +44,7 @@ const Login: React.FC = () => {
 
   const handleGoogleLogin = asyncErrorHandler(
     async (response: TokenResponse) => {
+      setLoading(true);
       await googleLogin(response.access_token);
       navigateTo(PAGE_ROUTE_URLS.HOME);
     },

@@ -39,6 +39,8 @@ export const isAdmin = () => getUserData().role === USER_ROLES.ADMIN;
 
 export const getUserRole = () => getUserData().role;
 
+export const getUserProfileImage = () => getUserData().profileUrl;
+
 export const asyncErrorHandler =
   <T extends unknown[]>(
     asyncFunction: (...args: T) => Promise<void>,

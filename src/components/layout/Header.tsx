@@ -4,7 +4,12 @@ import { Moon, Sun, X, Menu, User } from "lucide-react";
 
 import { useTheme } from "../../context/ThemeContext";
 import { PAGE_ROUTE_URLS } from "../../utils/constant";
-import { isAdmin, isUserLogin, logOut } from "../../utils/helper";
+import {
+  getUserProfileImage,
+  isAdmin,
+  isUserLogin,
+  logOut,
+} from "../../utils/helper";
 
 import Button from "../common/Button";
 import IconButton from "../common/IconButton";
@@ -84,9 +89,14 @@ const Header: React.FC = () => {
             <div className="relative">
               <IconButton
                 onClick={toggleProfileMenu}
-                className="rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 overflow-hidden"
+                size="none"
               >
-                <User size={20} />
+                {getUserProfileImage() ? (
+                  <img src={getUserProfileImage()} width={36} height={36} />
+                ) : (
+                  <User size={36} className="p-2" />
+                )}
               </IconButton>
 
               {showProfileMenu && (

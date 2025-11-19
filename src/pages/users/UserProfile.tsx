@@ -63,16 +63,12 @@ const UserProfile: React.FC = () => {
     setFormErrors
   );
 
-  const handleDeleteProfile = asyncErrorHandler(
-    async () => {
-      await deleteMyProfile();
-      logOut();
-    },
-    () => {
-      setShowDeleteDialog(false);
-      setLoading(false);
-    }
-  );
+  const handleDeleteProfile = asyncErrorHandler(async () => {
+    setShowDeleteDialog(false);
+    setPageLoading(true);
+    await deleteMyProfile();
+    logOut();
+  }, setPageLoading);
 
   return (
     <MainWithLoader isLoading={pageLoading}>

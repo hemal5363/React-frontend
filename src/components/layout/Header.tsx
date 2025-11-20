@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Moon, Sun, X, Menu, User } from "lucide-react";
+import { Moon, Sun, X, Menu } from "lucide-react";
 
 import { useTheme } from "../../context/ThemeContext";
-import { PAGE_ROUTE_URLS } from "../../utils/constant";
+import {
+  PAGE_ROUTE_URLS,
+  SESSION_USER_DATA_CHANGE_EVENT_NAME,
+} from "../../utils/constant";
 import {
   getUserProfileImage,
   isAdmin,
@@ -13,6 +16,7 @@ import {
 
 import Button from "../common/Button";
 import IconButton from "../common/IconButton";
+import ImagePreview from "../common/ImagePreview";
 import LinkButton from "../common/LinkButton";
 
 const Header: React.FC = () => {
@@ -23,6 +27,18 @@ const Header: React.FC = () => {
   const [headerLists, setHeaderLists] = useState<
     { name: string; path: string }[]
   >([]);
+  const [profileImage, setProfileImage] = useState(getUserProfileImage());
+
+  useEffect(() => {
+    const onChange = () => {
+      setProfileImage(getUserProfileImage());
+    };
+
+    window.addEventListener(SESSION_USER_DATA_CHANGE_EVENT_NAME, onChange);
+
+    return () =>
+      window.removeEventListener(SESSION_USER_DATA_CHANGE_EVENT_NAME, onChange);
+  }, []);
 
   useEffect(() => {
     const lists = [
@@ -51,7 +67,7 @@ const Header: React.FC = () => {
   const closeProfileMenu = () => setShowProfileMenu(false);
 
   return (
-    <header className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-md sticky top-0 z-50 transition-colors">
+    <header className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-md sticky top-0 z-50 transition-colors opacity-95">
       <nav className="container mx-auto flex items-center justify-between px-6 py-4 relative">
         {/* Logo */}
         <LinkButton
@@ -92,11 +108,7 @@ const Header: React.FC = () => {
                 className="rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 overflow-hidden"
                 size="none"
               >
-                {getUserProfileImage() ? (
-                  <img src={getUserProfileImage()} width={36} height={36} />
-                ) : (
-                  <User size={36} className="p-2" />
-                )}
+                <ImagePreview src={profileImage} size={9} padding={2} />
               </IconButton>
 
               {showProfileMenu && (

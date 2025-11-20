@@ -1,7 +1,14 @@
 import axios from "axios";
 
+import type { CustomAxiosConfig } from "../types";
 import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS } from "../utils/constant";
-import { logOut, navigateTo, toastError, toastSuccess } from "../utils/helper";
+import {
+  logOut,
+  navigateTo,
+  setUserData,
+  toastError,
+  toastSuccess,
+} from "../utils/helper";
 
 const customAxios = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
@@ -14,6 +21,9 @@ customAxios.interceptors.request.use((config) => {
   const token = sessionStorage.getItem(SESSION_STORAGE_KEYS.TOKEN);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  }
+  if ((config as CustomAxiosConfig).isFormData) {
+    config.headers["Content-Type"] = "multipart/form-data";
   }
   return config;
 });
@@ -30,10 +40,7 @@ customAxios.interceptors.response.use(
     }
     if (response && response.data && response.data.token) {
       sessionStorage.setItem(SESSION_STORAGE_KEYS.TOKEN, response.data.token);
-      sessionStorage.setItem(
-        SESSION_STORAGE_KEYS.USER_DATA,
-        JSON.stringify(response.data.data)
-      );
+      setUserData(response.data.data);
     }
     return response.data;
   },

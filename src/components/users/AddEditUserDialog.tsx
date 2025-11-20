@@ -7,6 +7,7 @@ import { asyncErrorHandler } from "../../utils/helper";
 
 import Button from "../common/Button";
 import Dialog from "../common/Dialog";
+import FileUpload from "../common/FileUpload";
 import FormInput from "../common/FormInput";
 import SelectInput from "../common/SelectInput";
 
@@ -19,6 +20,9 @@ const initialForm: IUserForm = {
   name: "",
   email: "",
   role: USER_ROLES.USER,
+  profileUrl: "",
+  profileImage: undefined,
+  isImageDeleted: false,
 };
 
 interface Props {
@@ -56,8 +60,19 @@ const AddEditUserDialog: React.FC<Props> = ({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
-    setFormErrors({ ...formErrors, [event.target.name]: "" });
+    const { name, value } = event.target;
+    if (name === "profileImage") {
+      const file = (event as React.ChangeEvent<HTMLInputElement>).target
+        .files?.[0];
+      setForm((prev) => ({
+        ...prev,
+        [name]: file,
+        isImageDeleted: !file,
+      }));
+      return;
+    }
+    setForm({ ...form, [name]: value });
+    setFormErrors({ ...formErrors, [name]: "" });
   };
 
   const handleSubmit = asyncErrorHandler(
@@ -92,6 +107,11 @@ const AddEditUserDialog: React.FC<Props> = ({
     >
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
+        <FileUpload
+          name="profileImage"
+          onChange={handleChange}
+          value={form.profileUrl}
+        />
         <FormInput
           label="User Name"
           name="name"

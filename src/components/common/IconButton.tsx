@@ -9,6 +9,7 @@ interface IconButtonProps {
   size?: "sm" | "md" | "lg" | "none";
   disabled?: boolean;
   className?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 const VARIANT_CLASSES: Record<Variant, string> = {
@@ -38,6 +39,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   size = "md",
   disabled = false,
   className,
+  type = "button",
 }) => {
   return (
     <button
@@ -48,6 +50,7 @@ const IconButton: React.FC<IconButtonProps> = ({
         disabled ? "opacity-60 cursor-not-allowed" : ""
       } ${className}`}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

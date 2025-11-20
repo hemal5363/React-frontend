@@ -2,22 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
+import DeleteDialog from "../../components/common/DeleteDialog";
+import FileUpload from "../../components/common/FileUpload";
 import FormInput from "../../components/common/FormInput";
 import Text from "../../components/common/Text";
 import MainWithLoader from "../../components/layout/MainWithLoader";
 import type { IUserForm } from "../../types";
-import { asyncErrorHandler, logOut } from "../../utils/helper";
+import { asyncErrorHandler, logOut, setUserData } from "../../utils/helper";
 import {
   deleteMyProfile,
   getMyProfile,
   updateMyProfile,
 } from "../../services/userService";
-import DeleteDialog from "../../components/common/DeleteDialog";
 
 const initialForm: IUserForm = {
   name: "",
   email: "",
   role: "",
+  profileUrl: "",
+  profileImage: undefined,
+  isImageDeleted: false,
 };
 
 const UserProfile: React.FC = () => {
@@ -30,6 +34,7 @@ const UserProfile: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchProfile = useCallback(
     asyncErrorHandler(async () => {
+      setPageLoading(true);
       const data = await getMyProfile();
       setForm(data);
     }, setPageLoading),
@@ -44,6 +49,16 @@ const UserProfile: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
+    if (name === "profileImage") {
+      const file = (event as React.ChangeEvent<HTMLInputElement>).target
+        .files?.[0];
+      setForm((prev) => ({
+        ...prev,
+        [name]: file,
+        isImageDeleted: !file,
+      }));
+      return;
+    }
     setForm((prev) => ({ ...prev, [name]: value }));
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
   };
@@ -51,13 +66,16 @@ const UserProfile: React.FC = () => {
   const handleSubmit = asyncErrorHandler(
     async (event: React.FormEvent) => {
       event.preventDefault();
+      setLoading(true);
 
       if (!form.name.trim()) {
         setFormErrors((prev) => ({ ...prev, name: "Name is required" }));
         return;
       }
 
-      await updateMyProfile(form);
+      const data = await updateMyProfile(form);
+      setForm(data);
+      setUserData(data);
     },
     setLoading,
     setFormErrors
@@ -84,7 +102,15 @@ const UserProfile: React.FC = () => {
             My Profile
           </Text>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 flex flex-col items-center"
+          >
+            <FileUpload
+              name="profileImage"
+              onChange={handleChange}
+              value={form.profileUrl}
+            />
             <FormInput
               label="Full Name"
               name="name"
@@ -111,7 +137,7 @@ const UserProfile: React.FC = () => {
               disabled
             />
 
-            <div className="flex sm:flex-row flex-col gap-4">
+            <div className="flex sm:flex-row flex-col gap-4 w-full">
               <Button
                 type="submit"
                 variant="primary"
@@ -125,6 +151,7 @@ const UserProfile: React.FC = () => {
                 variant="danger"
                 fullWidth
                 onClick={() => setShowDeleteDialog(true)}
+                disabled={loading}
               >
                 Delete Profile
               </Button>

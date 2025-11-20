@@ -4,6 +4,7 @@ import { Pencil, Trash } from "lucide-react";
 import type { Column, IPagination, IUser } from "../../types";
 
 import IconButton from "../common/IconButton";
+import ImagePreview from "../common/ImagePreview";
 import Table from "../common/Table";
 
 interface TableViewProps {
@@ -20,6 +21,13 @@ const TableView: React.FC<TableViewProps> = ({
   getUsers,
 }) => {
   const columns: Column<IUser>[] = [
+    {
+      key: "profileUrl",
+      label: "",
+      render: (user: IUser) => (
+        <ImagePreview src={user.profileUrl} size={10} padding={2} />
+      ),
+    },
     { key: "name", label: "Name", sortable: true, maxWidth: "200px" },
     { key: "email", label: "Email", sortable: true, maxWidth: "300px" },
     { key: "role", label: "Role", sortable: true },

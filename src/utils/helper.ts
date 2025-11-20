@@ -2,7 +2,12 @@ import { toast } from "react-toastify";
 
 import type { IUser } from "../types";
 
-import { PAGE_ROUTE_URLS, SESSION_STORAGE_KEYS, USER_ROLES } from "./constant";
+import {
+  PAGE_ROUTE_URLS,
+  SESSION_STORAGE_KEYS,
+  SESSION_USER_DATA_CHANGE_EVENT_NAME,
+  USER_ROLES,
+} from "./constant";
 
 export const getNewDate = (date?: Date | undefined | string) => {
   return new Date(date || Date.now());
@@ -28,6 +33,11 @@ export const logOut = () => {
   sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN);
   sessionStorage.removeItem(SESSION_STORAGE_KEYS.USER_DATA);
   navigateTo(PAGE_ROUTE_URLS.LOGIN);
+};
+
+export const setUserData = (data: IUser): void => {
+  sessionStorage.setItem(SESSION_STORAGE_KEYS.USER_DATA, JSON.stringify(data));
+  window.dispatchEvent(new Event(SESSION_USER_DATA_CHANGE_EVENT_NAME));
 };
 
 export const getUserData = (): IUser => {

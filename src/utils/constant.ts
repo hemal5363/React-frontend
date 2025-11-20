@@ -23,6 +23,8 @@ export const SESSION_STORAGE_KEYS = {
   USER_DATA: "userData",
 };
 
+export const SESSION_USER_DATA_CHANGE_EVENT_NAME = "session-user-data-change";
+
 export const DEFAULT_PAGINATION_LIMIT = 6;
 
 export const DEFAULT_PAGINATION_PAGE = 1;

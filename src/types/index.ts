@@ -1,3 +1,5 @@
+import type { AxiosRequestConfig } from "axios";
+
 export interface IError {
   errors: Record<string, string>;
   message: string;
@@ -66,6 +68,9 @@ export interface IUserForm {
   name: string;
   email: string;
   role: string;
+  profileUrl?: string;
+  profileImage?: File;
+  isImageDeleted?: boolean;
 }
 
 export interface ISelectOption {
@@ -80,4 +85,8 @@ export interface Column<T> {
   sortable?: boolean;
   maxWidth?: string;
   minWidth?: string;
+}
+
+export interface CustomAxiosConfig extends AxiosRequestConfig {
+  isFormData?: boolean;
 }

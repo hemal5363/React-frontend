@@ -1,6 +1,6 @@
 import customAxios from ".";
 
-import type { IUserForm } from "../types";
+import type { CustomAxiosConfig, IUserForm } from "../types";
 import { DEFAULT_PAGINATION_LIMIT, SERVICE_URLS } from "../utils/constant";
 
 export const getAllUsers = async (
@@ -16,12 +16,16 @@ export const getAllUsers = async (
 };
 
 export const createUser = async (user: IUserForm) => {
-  const response = await customAxios.post(SERVICE_URLS.USER, user);
+  const response = await customAxios.post(SERVICE_URLS.USER, user, {
+    isFormData: true,
+  } as CustomAxiosConfig);
   return response.data;
 };
 
 export const updateUser = async (id: string, user: IUserForm) => {
-  const response = await customAxios.patch(`${SERVICE_URLS.USER}/${id}`, user);
+  const response = await customAxios.patch(`${SERVICE_URLS.USER}/${id}`, user, {
+    isFormData: true,
+  } as CustomAxiosConfig);
   return response.data;
 };
 
@@ -44,7 +48,9 @@ export const getMyProfile = async () => {
 };
 
 export const updateMyProfile = async (user: IUserForm) => {
-  const response = await customAxios.patch(`${SERVICE_URLS.USER}/me`, user);
+  const response = await customAxios.patch(`${SERVICE_URLS.USER}/me`, user, {
+    isFormData: true,
+  } as CustomAxiosConfig);
   return response.data;
 };
 
